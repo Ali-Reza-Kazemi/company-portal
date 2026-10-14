@@ -1,0 +1,243 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Record",
+  "module": "Saein Portal",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "format:REC-{#####}",
+  "track_changes": 1,
+  "field_order": [
+    "domain",
+    "title",
+    "record_type",
+    "external_id",
+    "dedup_key",
+    "record_date",
+    "period_start",
+    "period_end",
+    "responsible",
+    "status",
+    "channel",
+    "item_code",
+    "customer_code",
+    "service",
+    "quantity",
+    "amount",
+    "cost",
+    "planned_at",
+    "ordered_at",
+    "promised_at",
+    "actual_at",
+    "rating",
+    "details",
+    "evidence",
+    "baseline_snapshot",
+    "locked",
+    "is_demo"
+  ],
+  "fields": [
+    {
+      "fieldname": "domain",
+      "label": "حوزه",
+      "fieldtype": "Link",
+      "options": "Portal Domain",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "title",
+      "label": "عنوان",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "record_type",
+      "label": "نوع ورودی",
+      "fieldtype": "Select",
+      "options": "Demand Forecast\nSupply Request\nLost Sale\nExcess Reduction\nStock Count\nCampaign\nLead\nTarget Customer\nVisit\nEmergency Visit\nCompetitor Analysis\nEvent\nTicket\nService Outage\nBackup Check\nData Error\nDevelopment Project\nReport Delivery",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "external_id",
+      "label": "شناسه منبع",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "dedup_key",
+      "label": "شناسه یکتا",
+      "fieldtype": "Data",
+      "unique": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "record_date",
+      "label": "تاریخ ثبت رویداد",
+      "fieldtype": "Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "period_start",
+      "label": "شروع دوره",
+      "fieldtype": "Date"
+    },
+    {
+      "fieldname": "period_end",
+      "label": "پایان دوره",
+      "fieldtype": "Date"
+    },
+    {
+      "fieldname": "responsible",
+      "label": "مسئول",
+      "fieldtype": "Link",
+      "options": "User"
+    },
+    {
+      "fieldname": "status",
+      "label": "وضعیت",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "channel",
+      "label": "کانال / منبع",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "item_code",
+      "label": "کد کالا / گروه",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "customer_code",
+      "label": "شناسه مشتری",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "service",
+      "label": "سرویس",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "quantity",
+      "label": "مقدار",
+      "fieldtype": "Float"
+    },
+    {
+      "fieldname": "amount",
+      "label": "مبلغ",
+      "fieldtype": "Currency"
+    },
+    {
+      "fieldname": "cost",
+      "label": "هزینه",
+      "fieldtype": "Currency"
+    },
+    {
+      "fieldname": "planned_at",
+      "label": "زمان برنامه / هشدار",
+      "fieldtype": "Datetime"
+    },
+    {
+      "fieldname": "ordered_at",
+      "label": "زمان سفارش / ثبت",
+      "fieldtype": "Datetime"
+    },
+    {
+      "fieldname": "promised_at",
+      "label": "زمان تعهد / موعد",
+      "fieldtype": "Datetime"
+    },
+    {
+      "fieldname": "actual_at",
+      "label": "زمان واقعی / رفع",
+      "fieldtype": "Datetime"
+    },
+    {
+      "fieldname": "rating",
+      "label": "امتیاز رضایت",
+      "fieldtype": "Float"
+    },
+    {
+      "fieldname": "details",
+      "label": "جزئیات و نتیجه",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "evidence",
+      "label": "مدرک خصوصی",
+      "fieldtype": "Attach"
+    },
+    {
+      "fieldname": "baseline_snapshot",
+      "label": "فهرست مبنای ثابت",
+      "fieldtype": "Long Text"
+    },
+    {
+      "fieldname": "locked",
+      "label": "نسخه مبنا قفل شده",
+      "fieldtype": "Check",
+      "default": "0"
+    },
+    {
+      "fieldname": "is_demo",
+      "label": "آزمایشی",
+      "fieldtype": "Check"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Portal Administrator",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Company Director",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 0,
+      "write": 0,
+      "delete": 0
+    },
+    {
+      "role": "Domain Officer",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Portal Contributor",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC"
+}

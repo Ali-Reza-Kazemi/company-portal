@@ -1,0 +1,102 @@
+name: saein-portal
+x-app: &app
+  image: saein-portal:0.1.0
+  build:
+    context: .
+  restart: unless-stopped
+  environment:
+    TZ: Asia/Tehran
+  volumes:
+    - sites:/home/frappe/frappe-bench/sites
+    - logs:/home/frappe/frappe-bench/logs
+services:
+  db:
+    image: mariadb:11.8
+    restart: unless-stopped
+    command: [--character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --skip-character-set-client-handshake]
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD}
+    volumes:
+      - database:/var/lib/mysql
+    healthcheck:
+      test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  redis-cache:
+    image: redis:7.4-alpine
+    restart: unless-stopped
+  redis-queue:
+    image: redis:7.4-alpine
+    restart: unless-stopped
+    command: [redis-server, --appendonly, 'yes']
+    volumes:
+      - redis-queue:/data
+  configurator:
+    <<: *app
+    restart: 'no'
+    command: [bash, /home/frappe/frappe-bench/apps/saein_portal/configure.sh]
+    depends_on:
+      db:
+        condition: service_healthy
+      redis-cache:
+        condition: service_started
+      redis-queue:
+        condition: service_started
+  create-site:
+    <<: *app
+    restart: 'no'
+    profiles: [setup]
+    environment:
+      DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set ADMIN_PASSWORD}
+      SITE_NAME: ${SITE_NAME:?Set SITE_NAME}
+    command: [bash, /home/frappe/frappe-bench/apps/saein_portal/create-site.sh]
+    depends_on:
+      configurator:
+        condition: service_completed_successfully
+  backend:
+    <<: *app
+    depends_on:
+      configurator:
+        condition: service_completed_successfully
+  websocket:
+    <<: *app
+    command: [node, /home/frappe/frappe-bench/apps/frappe/socketio.js]
+    depends_on:
+      configurator:
+        condition: service_completed_successfully
+  worker:
+    <<: *app
+    command: [bench, worker, --queue, 'short,default,long']
+    depends_on:
+      configurator:
+        condition: service_completed_successfully
+  scheduler:
+    <<: *app
+    command: [bench, schedule]
+    depends_on:
+      configurator:
+        condition: service_completed_successfully
+  frontend:
+    <<: *app
+    command: [nginx-entrypoint.sh]
+    environment:
+      BACKEND: backend:8000
+      SOCKETIO: websocket:9000
+      FRAPPE_SITE_NAME_HEADER: ${SITE_NAME:?Set SITE_NAME}
+      UPSTREAM_REAL_IP_ADDRESS: 127.0.0.1
+      UPSTREAM_REAL_IP_HEADER: X-Forwarded-For
+      UPSTREAM_REAL_IP_RECURSIVE: 'off'
+      PROXY_READ_TIMEOUT: 120
+      CLIENT_MAX_BODY_SIZE: 10m
+    ports:
+      - '127.0.0.1:${PROD_WEB_PORT:-18085}:8080'
+    depends_on:
+      - backend
+      - websocket
+volumes:
+  database:
+  sites:
+  logs:
+  redis-queue:

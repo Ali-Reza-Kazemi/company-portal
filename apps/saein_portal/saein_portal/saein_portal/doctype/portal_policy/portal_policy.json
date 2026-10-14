@@ -1,0 +1,106 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Policy",
+  "module": "Saein Portal",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "field:policy_key",
+  "track_changes": 1,
+  "field_order": [
+    "title",
+    "policy_key",
+    "configured",
+    "definition",
+    "value",
+    "unit"
+  ],
+  "fields": [
+    {
+      "fieldname": "title",
+      "label": "عنوان قاعده",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "policy_key",
+      "label": "کد قاعده",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "unique": 1
+    },
+    {
+      "fieldname": "configured",
+      "label": "تنظیم شده",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "definition",
+      "label": "تعریف مورد تأیید",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "value",
+      "label": "مقدار",
+      "fieldtype": "Float"
+    },
+    {
+      "fieldname": "unit",
+      "label": "واحد",
+      "fieldtype": "Data"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Portal Administrator",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Company Director",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 0,
+      "write": 0,
+      "delete": 0
+    },
+    {
+      "role": "Domain Officer",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 0,
+      "write": 0,
+      "delete": 0
+    },
+    {
+      "role": "Portal Contributor",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 0,
+      "write": 0,
+      "delete": 0
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC"
+}

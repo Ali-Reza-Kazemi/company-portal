@@ -1,0 +1,43 @@
+name: saein-portal-dev
+services:
+  db:
+    image: mariadb:11.8
+    command: [--character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --skip-character-set-client-handshake]
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD}
+    volumes:
+      - database:/var/lib/mysql
+    healthcheck:
+      test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+  redis-cache:
+    image: redis:7.4-alpine
+  redis-queue:
+    image: redis:7.4-alpine
+  bench:
+    image: frappe/bench:latest
+    command: [bash, -c, 'if [ -f portal-bench/Procfile ]; then cd portal-bench && bench start; else exec sleep infinity; fi']
+    working_dir: /home/frappe/workspace
+    environment:
+      DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set ADMIN_PASSWORD}
+      TZ: Asia/Tehran
+    volumes:
+      - bench:/home/frappe/workspace
+      - ./apps:/workspace/apps
+      - ./docker:/workspace/docker:ro
+    ports:
+      - '127.0.0.1:${WEB_PORT:-8085}:8000'
+      - '127.0.0.1:${SOCKET_PORT:-19085}:9000'
+    depends_on:
+      db:
+        condition: service_healthy
+      redis-cache:
+        condition: service_started
+      redis-queue:
+        condition: service_started
+volumes:
+  database:
+  bench:

@@ -1,0 +1,82 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Holiday",
+  "module": "Saein Portal",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "field:date",
+  "track_changes": 1,
+  "field_order": [
+    "date",
+    "title"
+  ],
+  "fields": [
+    {
+      "fieldname": "date",
+      "label": "تاریخ تعطیل",
+      "fieldtype": "Date",
+      "reqd": 1,
+      "unique": 1
+    },
+    {
+      "fieldname": "title",
+      "label": "عنوان",
+      "fieldtype": "Data",
+      "reqd": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Portal Administrator",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Company Director",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 0,
+      "write": 0,
+      "delete": 0
+    },
+    {
+      "role": "Domain Officer",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 0,
+      "write": 0,
+      "delete": 0
+    },
+    {
+      "role": "Portal Contributor",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 0,
+      "write": 0,
+      "delete": 0
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC"
+}
