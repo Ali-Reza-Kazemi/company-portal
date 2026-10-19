@@ -1,0 +1,62 @@
+/* Company identity: original logo blue #01148b and red #ed2428. */
+:root{--saeenaria-blue:#01148b;--saeenaria-red:#ed2428;--primary:#01148b;--primary-color:#01148b;--btn-primary:#01148b}
+.portal-brand{background:#f3f5fb;color:#202b49;accent-color:var(--saeenaria-blue)}
+.portal-brand header{background:#fff;color:var(--saeenaria-blue);border-top:5px solid var(--saeenaria-red);box-shadow:0 3px 18px #01148b0a}
+.portal-brand header p,.portal-brand .portal-account small{color:#5c6684}
+.portal-company{display:flex;align-items:center;gap:22px;min-width:0}.portal-company h1{margin:0 0 8px}.portal-company p{margin:0;line-height:1.8}
+.portal-logo{display:block;width:148px;height:104px;object-fit:contain;flex:none;background:#fff;border-radius:8px}
+.portal-brand .portal-account button{color:var(--saeenaria-blue);background:#f1f3ff;border-color:#ccd2f0}
+.portal-brand .portal-quick-links a{color:var(--saeenaria-blue);background:#f1f3fc;border-color:#dfe3f5}
+.portal-brand .portal-quick-links a:hover,.portal-brand .portal-quick-links a:focus-visible{background:#e4e9ff;border-color:var(--saeenaria-blue)}
+.portal-brand button{background:var(--saeenaria-blue)}.portal-brand button:hover{filter:brightness(.92)}
+.portal-brand button.secondary{background:#e9ecfa;color:var(--saeenaria-blue)}
+.portal-brand a{color:var(--saeenaria-blue)}.portal-brand h2,.portal-brand h3{color:var(--saeenaria-blue)}
+.portal-brand input,.portal-brand select,.portal-brand textarea{border-color:#cbd1e4}
+.portal-brand :is(input,select,textarea,button,a):focus-visible{outline:3px solid #6d80e4;outline-offset:2px}
+.portal-brand th{background:#eef1fc;color:#182c73}.portal-brand td{border-bottom-color:#e1e5f1}
+.portal-brand .muted{color:#606c84}.portal-brand .card{box-shadow:0 3px 16px #01148b08}
+.portal-brand .management-response{background:#f0f3ff;border-right-color:var(--saeenaria-blue)}
+.portal-brand .management-response .management-label,.portal-brand .management-open{color:var(--saeenaria-blue)}
+.portal-brand .management-column-heading{border-bottom-color:#e0e5f6}.portal-brand .management-count{background:#edf0fc;color:var(--saeenaria-blue)}
+.portal-brand .management-item,.portal-brand .management-column-heading{border-color:#dce1f1}
+.portal-brand .saeenaria-date-button{background:transparent;color:var(--saeenaria-blue)}
+.portal-brand .saeenaria-date-button:hover{background:#e5eaff}.portal-brand .portal-date-heading button{background:transparent;color:var(--saeenaria-blue)}
+.portal-brand .saeenaria-cal-nav button{background:#edf0fc;color:var(--saeenaria-blue)}
+.portal-brand .saeenaria-cal-day{background:transparent;color:#26385f}.portal-brand .saeenaria-cal-day:hover{background:#e7ecff}
+.portal-brand .saeenaria-cal-day.is-off{background:#fff0f1;color:#af263a}.portal-brand .saeenaria-cal-day.is-today{box-shadow:inset 0 0 0 1px var(--saeenaria-blue)}
+.portal-brand .saeenaria-cal-day.is-selected{background:var(--saeenaria-blue)!important;color:white!important}
+.portal-brand #logout-error{color:#b42332}
+.btn-primary{--btn-bg:#01148b;--btn-hover-bg:#06116d;background-color:#01148b;border-color:#01148b}
+.portal-import-brand{max-width:900px}.portal-import-brand .import-brand{border-top:4px solid #ed2428;display:flex;gap:20px;align-items:center;margin-bottom:24px;padding-top:20px}
+@media(max-width:700px){.portal-company{gap:14px}.portal-logo{width:104px;height:74px}.portal-company h1{font-size:18px}.portal-company p{font-size:12px}.portal-import-brand .import-brand{flex-wrap:wrap}}
+@media print{.portal-brand header{border-top:0;box-shadow:none}.portal-logo{width:110px;height:77px}.portal-brand{background:#fff}}
+.portal-tabs{display:flex;gap:5px;overflow-x:auto;margin-top:22px;border-bottom:1px solid #dce2f3;padding-bottom:0;scrollbar-width:thin}
+.portal-brand .portal-tabs button{flex:none;white-space:nowrap;background:transparent;color:#596582;border-radius:8px 8px 0 0;padding:12px 18px;border-bottom:3px solid transparent;font-weight:500}
+.portal-brand .portal-tabs button[aria-selected=true]{background:#eef1ff;color:#01148b;border-bottom-color:#ed2428;font-weight:700}
+.portal-brand .portal-tabs button:hover{background:#f3f5fc;filter:none}.portal-desk-link{font-size:13px;text-decoration:none;padding:8px}
+.portal-shared-filters{padding:14px 20px!important}.portal-shared-filters summary{cursor:pointer;font-size:13px;color:#43547b}.portal-shared-filters[open] summary{margin-bottom:18px}.portal-task-tools{display:flex;gap:8px;justify-content:flex-end;margin-bottom:12px}.portal-task-tools button{font-size:13px;padding:7px 12px}
+[role=tabpanel][hidden],.portal-shared-filters[hidden],.toolbar>div[hidden]{display:none!important}#message:empty{display:none}main>a[href="/app"]{display:none}
+@media(max-width:700px){.portal-brand .portal-tabs button{padding:11px 13px;font-size:13px}.portal-tabs{margin-top:16px}.portal-shared-filters .toolbar>div{min-width:140px}}
+@media print{.portal-tabs,.portal-shared-filters,.portal-task-tools,.portal-desk-link{display:none!important}}
+.portal-brand .portal-account{display:grid;gap:14px;min-width:250px;max-width:340px;padding:16px 18px;background:#f8f9fe;border:1px solid #e5e9f5;border-radius:16px}
+.portal-identity{display:flex;align-items:center;gap:12px}.portal-avatar{width:42px;height:42px;display:grid;place-items:center;flex:none;background:#e9edff;border-radius:13px;color:#01148b}.portal-identity-text{display:grid;gap:4px;min-width:0}.portal-identity-text strong{font-size:14px;color:#243464;overflow-wrap:anywhere}.portal-brand .portal-identity-text small{font-size:11px;color:#77819b}
+.portal-account-actions{display:flex;gap:10px;align-items:center;border-top:1px solid #e5e9f5;padding-top:12px}.portal-brand .portal-account-actions .portal-desk-link,.portal-brand .portal-account-actions #logout{display:inline-flex;align-items:center;justify-content:center;gap:7px;flex:1;min-height:34px;font-size:12px;line-height:1.4;padding:7px 10px;border-radius:8px;text-decoration:none}
+.portal-brand .portal-account-actions .portal-desk-link{background:#fff;border:1px solid #dce2f3;color:#263c82}.portal-brand .portal-account-actions #logout{background:transparent;color:#a43746;border:1px solid transparent}.portal-brand .portal-account-actions #logout:hover{background:#fff0f2;border-color:#f5d5db;filter:none}.portal-account #logout-error:empty{display:none}
+@media(max-width:700px){.portal-brand .portal-account{width:100%;max-width:none;min-width:0;grid-template-columns:1fr auto;align-items:center;padding:12px 14px;gap:10px}.portal-account-actions{border-top:0;border-right:1px solid #e5e9f5;padding-top:0;padding-right:12px}.portal-account #logout-error{grid-column:1/-1}.portal-brand .portal-account-actions .portal-desk-link,.portal-brand .portal-account-actions #logout{flex:none;padding:7px 8px}.portal-avatar{width:36px;height:36px}.portal-identity-text strong{font-size:13px}}
+@media(max-width:380px){.portal-brand .portal-account{grid-template-columns:1fr}.portal-account-actions{border-right:0;border-top:1px solid #e5e9f5;padding-right:0;padding-top:10px}.portal-brand .portal-account-actions .portal-desk-link,.portal-brand .portal-account-actions #logout{flex:1}}
+/* Desktop account controls: a compact horizontal strip aligned with the brand. */
+@media(min-width:701px){
+ .portal-brand .portal-account{display:flex;align-items:center;flex-wrap:nowrap;gap:18px;min-width:0;max-width:none;padding:10px 0;background:transparent;border:0;border-radius:0}
+ .portal-identity{gap:10px}.portal-avatar{width:38px;height:38px;border-radius:50%;background:#eef1ff}
+ .portal-identity-text{gap:5px}.portal-identity-text strong{font-size:13px;line-height:1.5}.portal-brand .portal-identity-text small{font-size:11px}
+ .portal-account-actions{border-top:0;border-right:1px solid #e1e5f1;padding-top:0;padding-right:16px;gap:8px}
+ .portal-brand .portal-account-actions .portal-desk-link,.portal-brand .portal-account-actions #logout{flex:none;min-height:36px;padding:8px 12px;white-space:nowrap;font-size:12px}
+ .portal-brand .portal-account-actions .portal-desk-link{background:#f8f9fd;border-color:#e0e5f1}
+ .portal-account #logout-error:not(:empty){position:absolute;margin-top:92px;font-size:12px}
+ .portal-brand .portal-header-row{min-height:104px;gap:28px}
+}
+@media(min-width:701px) and (max-width:1050px){
+ .portal-brand .portal-account{gap:10px}.portal-account-actions{gap:3px;padding-right:10px}.portal-brand .portal-account-actions .portal-desk-link,.portal-brand .portal-account-actions #logout{padding:8px}.portal-brand .portal-company{gap:14px}.portal-brand .portal-company h1{font-size:20px}.portal-brand .portal-logo{width:120px;height:84px}
+}
+
+.portal-account-link{text-decoration:none;padding:7px 9px;border-radius:10px;transition:background .15s}.portal-account-link:hover{background:#edf1ff}.portal-account-link:focus-visible{outline:3px solid #8594df;outline-offset:2px}.portal-account-link .portal-identity-text:after{content:"مدیریت حساب ›";font-size:10px;color:#465baa;margin-top:1px}

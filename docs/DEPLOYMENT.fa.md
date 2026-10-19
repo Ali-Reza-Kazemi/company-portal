@@ -6,7 +6,7 @@
 
 ## بررسی سرور Ubuntu 24.04
 
-فقط در پوشه پروژه جدید کار کنید، مثلاً `/opt/saein-portal`. مسیر `/opt/inventory-etl`، MySQL موجود، شبکه و volumeهای سرویس‌های فعلی را تغییر ندهید.
+فقط در پوشه پروژه جدید کار کنید، مثلاً `/opt/saeenaria-portal`. مسیر `/opt/inventory-etl`، MySQL موجود، شبکه و volumeهای سرویس‌های فعلی را تغییر ندهید.
 
 ```bash
 bash deploy/preflight.sh
@@ -17,7 +17,7 @@ bash deploy/preflight.sh
 ## آماده‌سازی مستقل
 
 ```bash
-cd /opt/saein-portal
+cd /opt/saeenaria-portal
 cp deploy/.env.example .env
 chmod 600 .env
 # با ویرایشگر SITE_NAME و رمزهای مستقل را تعیین کنید.

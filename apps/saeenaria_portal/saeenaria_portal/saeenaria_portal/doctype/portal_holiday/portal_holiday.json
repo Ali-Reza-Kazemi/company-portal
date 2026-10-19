@@ -1,0 +1,118 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Holiday",
+  "module": "Saeenaria Portal",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "field:date",
+  "track_changes": 1,
+  "field_order": [
+    "date",
+    "title",
+    "enabled",
+    "source_url",
+    "source_year",
+    "imported_title"
+  ],
+  "fields": [
+    {
+      "fieldname": "date",
+      "label": "تاریخ تعطیل",
+      "fieldtype": "Date",
+      "reqd": 1,
+      "unique": 1,
+      "hidden": 0,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "title",
+      "label": "عنوان",
+      "fieldtype": "Small Text",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "enabled",
+      "label": "فعال",
+      "fieldtype": "Check",
+      "default": "1",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "source_url",
+      "label": "منبع دریافت",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "source_year",
+      "label": "سال شمسی منبع",
+      "fieldtype": "Int",
+      "read_only": 1
+    },
+    {
+      "fieldname": "imported_title",
+      "label": "عنوان دریافتی از منبع",
+      "fieldtype": "Small Text",
+      "read_only": 1,
+      "hidden": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Portal Administrator",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Company Director",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 0,
+      "write": 0,
+      "delete": 0
+    },
+    {
+      "role": "Domain Officer",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 0,
+      "write": 0,
+      "delete": 0
+    },
+    {
+      "role": "Portal Contributor",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 0,
+      "write": 0,
+      "delete": 0
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "title_field": "title",
+  "show_title_field_in_link": 1,
+  "search_fields": "title,date"
+}

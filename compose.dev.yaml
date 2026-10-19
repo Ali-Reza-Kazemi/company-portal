@@ -1,4 +1,4 @@
-name: saein-portal-dev
+name: saeenaria-portal-dev
 services:
   db:
     image: mariadb:11.8

@@ -1,0 +1,213 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Staff Request",
+  "module": "Saeenaria Portal",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "hash",
+  "track_changes": 1,
+  "title_field": "title",
+  "fields": [
+    {
+      "fieldname": "title",
+      "label": "عنوان",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "employee",
+      "label": "کارمند",
+      "fieldtype": "Link",
+      "options": "User",
+      "reqd": 1
+    },
+    {
+      "fieldname": "domain",
+      "label": "حوزه",
+      "fieldtype": "Link",
+      "options": "Portal Domain",
+      "reqd": 1
+    },
+    {
+      "fieldname": "request_type",
+      "label": "نوع درخواست",
+      "fieldtype": "Select",
+      "options": "Leave\nMission",
+      "reqd": 1
+    },
+    {
+      "fieldname": "duration_type",
+      "label": "نحوه ثبت",
+      "fieldtype": "Select",
+      "options": "Daily\nHourly",
+      "reqd": 1
+    },
+    {
+      "fieldname": "leave_kind",
+      "label": "نوع مرخصی",
+      "fieldtype": "Select",
+      "options": "Annual\nSick\nUnpaid\nOther"
+    },
+    {
+      "fieldname": "start_date",
+      "label": "تاریخ شروع",
+      "fieldtype": "Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "end_date",
+      "label": "تاریخ پایان",
+      "fieldtype": "Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "start_time",
+      "label": "ساعت شروع",
+      "fieldtype": "Time"
+    },
+    {
+      "fieldname": "end_time",
+      "label": "ساعت پایان",
+      "fieldtype": "Time"
+    },
+    {
+      "fieldname": "destination",
+      "label": "مقصد مأموریت",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "details",
+      "label": "شرح و هدف",
+      "fieldtype": "Small Text",
+      "reqd": 1
+    },
+    {
+      "fieldname": "evidence",
+      "label": "پیوست",
+      "fieldtype": "Attach"
+    },
+    {
+      "fieldname": "duration_summary",
+      "label": "مدت درخواست",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "cancelled",
+      "label": "لغوشده",
+      "fieldtype": "Check",
+      "default": "0",
+      "read_only": 1
+    },
+    {
+      "fieldname": "is_demo",
+      "label": "آزمایشی",
+      "fieldtype": "Check",
+      "default": "0"
+    },
+    {
+      "fieldname": "approval_status",
+      "label": "وضعیت درخواست",
+      "fieldtype": "Select",
+      "read_only": 1,
+      "options": "Pending\nApproved\nReturned\nCancelled",
+      "default": "Pending",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "approver",
+      "label": "مسئول تأیید درخواست",
+      "fieldtype": "Link",
+      "read_only": 1,
+      "options": "User"
+    },
+    {
+      "fieldname": "approval_note",
+      "label": "نظر مسئول تأیید",
+      "fieldtype": "Small Text",
+      "read_only": 1
+    },
+    {
+      "fieldname": "approved_by",
+      "label": "ثبت‌کننده نتیجه",
+      "fieldtype": "Link",
+      "read_only": 1,
+      "options": "User"
+    },
+    {
+      "fieldname": "approved_at",
+      "label": "زمان ثبت نتیجه",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    }
+  ],
+  "field_order": [
+    "title",
+    "employee",
+    "domain",
+    "request_type",
+    "duration_type",
+    "leave_kind",
+    "start_date",
+    "end_date",
+    "start_time",
+    "end_time",
+    "destination",
+    "details",
+    "evidence",
+    "duration_summary",
+    "cancelled",
+    "is_demo",
+    "approval_status",
+    "approver",
+    "approval_note",
+    "approved_by",
+    "approved_at"
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "select": 1
+    },
+    {
+      "role": "Portal Administrator",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "select": 1
+    },
+    {
+      "role": "Company Director",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "select": 1
+    },
+    {
+      "role": "Domain Officer",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "select": 1
+    },
+    {
+      "role": "Portal Contributor",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "select": 1
+    },
+    {
+      "role": "Portal HR Manager",
+      "read": 1,
+      "create": 1,
+      "write": 1,
+      "select": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC"
+}

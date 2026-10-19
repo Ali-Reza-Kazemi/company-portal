@@ -1,0 +1,187 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Metric Value",
+  "module": "Saeenaria Portal",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "hash",
+  "track_changes": 1,
+  "field_order": [
+    "domain",
+    "metric",
+    "period_start",
+    "period_end",
+    "data_status",
+    "actual",
+    "has_target",
+    "target",
+    "source",
+    "source_updated_at",
+    "dedup_key",
+    "is_demo"
+  ],
+  "fields": [
+    {
+      "fieldname": "domain",
+      "label": "حوزه",
+      "fieldtype": "Link",
+      "options": "Portal Domain",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "metric",
+      "label": "شاخص",
+      "fieldtype": "Link",
+      "options": "Portal Metric",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "period_start",
+      "label": "شروع دوره",
+      "fieldtype": "Date",
+      "reqd": 1,
+      "hidden": 0
+    },
+    {
+      "fieldname": "period_end",
+      "label": "پایان دوره",
+      "fieldtype": "Date",
+      "reqd": 1,
+      "hidden": 0
+    },
+    {
+      "fieldname": "data_status",
+      "label": "وضعیت داده",
+      "fieldtype": "Select",
+      "options": "Valid\nProvisional\nMissing",
+      "default": "Missing",
+      "reqd": 1
+    },
+    {
+      "fieldname": "actual",
+      "label": "مقدار واقعی",
+      "fieldtype": "Float"
+    },
+    {
+      "fieldname": "has_target",
+      "label": "هدف تعیین شده",
+      "fieldtype": "Check",
+      "permlevel": 1
+    },
+    {
+      "fieldname": "target",
+      "label": "هدف",
+      "fieldtype": "Float",
+      "permlevel": 1
+    },
+    {
+      "fieldname": "source",
+      "label": "منبع",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "source_updated_at",
+      "label": "زمان به‌روزرسانی منبع",
+      "fieldtype": "Datetime",
+      "hidden": 0
+    },
+    {
+      "fieldname": "dedup_key",
+      "label": "شناسه یکتا",
+      "fieldtype": "Data",
+      "unique": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "is_demo",
+      "label": "آزمایشی",
+      "fieldtype": "Check"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Portal Administrator",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Company Director",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Domain Officer",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Portal Contributor",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "System Manager",
+      "permlevel": 1,
+      "read": 1,
+      "write": 1
+    },
+    {
+      "role": "Portal Administrator",
+      "permlevel": 1,
+      "read": 1,
+      "write": 1
+    },
+    {
+      "role": "Company Director",
+      "permlevel": 1,
+      "read": 1,
+      "write": 1
+    },
+    {
+      "role": "Domain Officer",
+      "permlevel": 1,
+      "read": 1,
+      "write": 0
+    },
+    {
+      "role": "Portal Contributor",
+      "permlevel": 1,
+      "read": 1,
+      "write": 0
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC"
+}

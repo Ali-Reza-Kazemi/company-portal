@@ -1,0 +1,15 @@
+(()=>{
+ if(location.pathname==='/login'||document.getElementById('portal-environments'))return;
+ const style=document.createElement('style');style.textContent=`#portal-environments{position:fixed;bottom:max(16px,env(safe-area-inset-bottom));left:18px;z-index:1000;direction:rtl;font-family:Vazirmatn,Tahoma,sans-serif;font-size:13px}#portal-environments summary{list-style:none;cursor:pointer;background:#01148b;color:white;padding:11px 17px;border:1px solid #fff;border-radius:24px;box-shadow:0 4px 16px #01148b25;font-weight:500}#portal-environments summary::-webkit-details-marker{display:none}#portal-environments nav{position:absolute;bottom:52px;left:0;width:245px;max-height:70vh;overflow:auto;background:white;border:1px solid #dfe5f4;border-radius:13px;padding:8px;box-shadow:0 8px 28px #01148b20}#portal-environments a{display:block;padding:10px 12px;border-radius:7px;color:#263b73;text-decoration:none;line-height:1.8}#portal-environments a:hover,#portal-environments a[aria-current=page]{background:#eef2ff;color:#01148b}#portal-environments summary:focus-visible,#portal-environments a:focus-visible{outline:3px solid #8896e1;outline-offset:2px}#portal-environments small{display:block;color:#77819b;padding:7px 12px;font-size:11px;border-bottom:1px solid #edf0f7;margin-bottom:5px}@media(max-width:500px){#portal-environments{bottom:12px;left:12px}#portal-environments summary{padding:9px 13px;font-size:12px}}@media print{#portal-environments{display:none}}`;
+ document.head.append(style);
+ fetch('/api/method/saeenaria_portal.api.environment_navigation').then(r=>r.ok?r.json():Promise.reject()).then(payload=>{
+  const links=payload.message?.links;if(!links?.length||document.getElementById('portal-environments'))return;
+  const root=document.createElement('details');root.id='portal-environments';const summary=document.createElement('summary');summary.textContent='جابه‌جایی محیط ◂';root.append(summary);
+  const nav=document.createElement('nav');nav.setAttribute('aria-label','جابه‌جایی بین محیط‌های سامانه');const label=document.createElement('small');label.textContent='یک سامانه، محیط‌های متناسب با کار شما';nav.append(label);
+  for(const link of links){const a=document.createElement('a');a.href=link.url;a.textContent=link.label;a.dataset.kind=link.kind;nav.append(a);}
+  root.append(nav);document.body.append(root);
+  function update(){const path=location.pathname;const current=path.startsWith('/desk/build')?'build':path.startsWith('/desk')?'records':path==='/portal-admin'?'hub':path==='/portal-guide'?'guide':path==='/portal'?'portal':'';for(const a of nav.querySelectorAll('a')){if(a.dataset.kind===current)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');}root.open=false;}
+  update();window.addEventListener('popstate',update);window.addEventListener('hashchange',update);if(window.frappe?.router?.on)frappe.router.on('change',update);
+  document.addEventListener('click',e=>{if(!root.contains(e.target))root.open=false;});root.addEventListener('keydown',e=>{if(e.key==='Escape'){root.open=false;summary.focus();}});
+ }).catch(()=>{});
+})();

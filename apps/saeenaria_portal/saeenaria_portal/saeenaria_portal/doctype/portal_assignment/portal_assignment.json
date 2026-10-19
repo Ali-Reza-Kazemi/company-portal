@@ -1,0 +1,71 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Assignment",
+  "module": "Saeenaria Portal",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "hash",
+  "track_changes": 1,
+  "field_order": [
+    "domain",
+    "user",
+    "enabled",
+    "is_manager"
+  ],
+  "fields": [
+    {
+      "fieldname": "domain",
+      "label": "حوزه",
+      "fieldtype": "Link",
+      "options": "Portal Domain",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "user",
+      "label": "کاربر",
+      "fieldtype": "Link",
+      "options": "User",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "enabled",
+      "label": "فعال",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "is_manager",
+      "label": "مدیر واحد",
+      "fieldtype": "Check",
+      "default": "0",
+      "in_list_view": 1,
+      "description": "اجازه واگذاری کار به کارکنان همین حوزه"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Portal Administrator",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC"
+}

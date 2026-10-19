@@ -1,0 +1,11 @@
+(()=>{
+const select=document.getElementById('reset-user'), button=document.getElementById('send-user-reset'), message=document.getElementById('reset-user-message'), getButton=document.getElementById('get-user-reset'), panel=document.getElementById('reset-link-panel'), link=document.getElementById('reset-link');
+let busy=false;
+function clearLink(){link.value='';panel.hidden=true;}
+select.onchange=()=>{clearLink();message.textContent='';};
+window.addEventListener('pagehide',clearLink);
+document.getElementById('copy-reset-link').onclick=async()=>{try{await navigator.clipboard.writeText(link.value);message.textContent='لینک کپی شد.';}catch(e){link.focus();link.select();message.textContent='لینک را انتخاب کردیم؛ آن را با گزینهٔ کپی دستگاه کپی کنید.';}};
+async function call(method,args){const response=await fetch('/api/method/saeenaria_portal.password_admin.'+method,{method:args?'POST':'GET',cache:'no-store',headers:{'Content-Type':'application/json','X-Frappe-CSRF-Token':document.querySelector('meta[name=csrf-token]').content},...(args?{body:JSON.stringify(args)}:{})});const data=await response.json();if(!response.ok||data.exc)throw Error(response.status===403?'دسترسی بازنشانی این حساب را ندارید.':'عملیات انجام نشد؛ تنظیم ایمیل خروجی سامانه و دسترسی حساب را بررسی کنید.');return data.message;}
+call('users').then(users=>{select.replaceChildren(new Option('انتخاب کارمند',''));users.sort((a,b)=>a.label.localeCompare(b.label,'fa')).forEach(u=>select.add(new Option(u.label,u.value)));button.disabled=getButton.disabled=!users.length;if(!users.length)message.textContent='کاربری برای بازنشانی در دسترس نیست.';}).catch(e=>message.textContent=e.message);
+document.getElementById('reset-user-form').onsubmit=async event=>{event.preventDefault();if(busy)return;busy=true;button.disabled=getButton.disabled=true;clearLink();message.textContent='در حال ثبت درخواست…';try{const delivery=event.submitter===button?'email':'link';const result=await call('send_reset',{user:select.value,delivery});message.textContent=result.message;if(result.link){link.value=result.link;panel.hidden=false;}}catch(e){message.textContent=e.message;}finally{busy=false;button.disabled=getButton.disabled=false;}};
+})();

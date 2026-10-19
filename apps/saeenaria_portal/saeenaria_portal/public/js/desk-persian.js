@@ -1,0 +1,12 @@
+(()=>{
+ const labels={"Demand Forecast": "پیش‌بینی تقاضا", "Supply Request": "درخواست تأمین", "Lost Sale": "فروش ازدست‌رفته", "Excess Reduction": "کاهش موجودی مازاد", "Stock Count": "شمارش موجودی", "Campaign": "کمپین بازاریابی", "Lead": "سرنخ فروش", "Target Customer": "مشتری هدف", "Visit": "بازدید مشتری", "Emergency Visit": "بازدید اضطراری", "Competitor Analysis": "تحلیل رقبا", "Event": "رویداد", "Ticket": "تیکت پشتیبانی", "Service Outage": "قطعی سرویس", "Backup Check": "بررسی پشتیبان‌گیری", "Data Error": "خطای داده", "Development Project": "پروژه توسعه", "Report Delivery": "تحویل گزارش","Portal Calendar Sync":"وضعیت دریافت تقویم","name":"شناسه","Saeenaria Portal": "پورتال صائین آریا", "Portal Action": "اقدامات کاری", "Portal Assignment": "عضویت و نقش واحد", "Portal Decision": "تصمیم‌های مدیریت", "Portal Domain": "واحدها و حوزه‌ها", "Portal Holiday": "تعطیلات کاری", "Portal Metric": "شناسنامه شاخص‌ها", "Portal Metric Value": "مقادیر شاخص‌ها", "Portal Policy": "قواعد پورتال", "Portal Record": "ورودی‌های عملیاتی", "Portal Report": "گزارش‌های حوزه", "Portal Template": "برنامه‌های تکرارشونده", "Sidebar Menu": "منوی کناری", "Missing": "ناموجود", "Valid": "معتبر", "Provisional": "موقت", "No Target": "هدف تعیین نشده", "Open": "باز", "Answered": "پاسخ داده‌شده", "Closed": "بسته‌شده", "In Progress": "در حال انجام", "Completed": "تکمیل‌شده", "Cancelled": "لغوشده", "Blocked": "دارای مانع", "Low": "کم", "Normal": "عادی", "High": "زیاد", "Urgent": "فوری"};
+ function translate(){
+  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
+  while(n=walker.nextNode()){if(n.parentElement?.closest('script,style,input,textarea,[contenteditable="true"],.ql-editor,.code-editor'))continue;const t=n.nodeValue.trim();if(labels[t])n.nodeValue=n.nodeValue.replace(t,labels[t]);}
+  for(const e of document.querySelectorAll('[title],[aria-label]'))for(const attr of ['title','aria-label']){const text=e.getAttribute(attr);if(labels[text])e.setAttribute(attr,labels[text]);}
+  if(labels[document.title])document.title=labels[document.title];
+ }
+ if(window.frappe){frappe._messages=frappe._messages||{};Object.assign(frappe._messages,labels);}
+ let pending=false;const schedule=()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;translate();});};
+ translate();new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true,characterData:true});
+})();

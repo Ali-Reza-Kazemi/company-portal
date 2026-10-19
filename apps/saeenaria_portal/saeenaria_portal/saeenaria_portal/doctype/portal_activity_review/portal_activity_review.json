@@ -1,0 +1,132 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Activity Review",
+  "module": "Saeenaria Portal",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "hash",
+  "track_changes": 1,
+  "title_field": "title",
+  "fields": [
+    {
+      "fieldname": "title",
+      "label": "عنوان",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "source_type",
+      "label": "نوع فعالیت",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "source_name",
+      "label": "شناسه فعالیت",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "source_key",
+      "label": "کلید فعالیت",
+      "fieldtype": "Data",
+      "unique": 1,
+      "hidden": 1
+    },
+    {
+      "fieldname": "domain",
+      "label": "حوزه",
+      "fieldtype": "Link",
+      "options": "Portal Domain",
+      "read_only": 1
+    },
+    {
+      "fieldname": "employee",
+      "label": "کارمند",
+      "fieldtype": "Link",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "reviewer",
+      "label": "بررسی‌کننده اختصاصی",
+      "fieldtype": "Link",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "status",
+      "label": "وضعیت بررسی",
+      "fieldtype": "Select",
+      "options": "Pending\nApproved\nReturned\nCancelled",
+      "read_only": 1
+    },
+    {
+      "fieldname": "review_note",
+      "label": "نظر بررسی‌کننده",
+      "fieldtype": "Small Text",
+      "read_only": 1
+    },
+    {
+      "fieldname": "reviewed_by",
+      "label": "بررسی‌شده توسط",
+      "fieldtype": "Link",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "reviewed_at",
+      "label": "زمان بررسی",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "source_hash",
+      "label": "اثر انگشت نسخه",
+      "fieldtype": "Data",
+      "hidden": 1
+    },
+    {
+      "fieldname": "snapshot",
+      "label": "نسخه مورد بررسی",
+      "fieldtype": "Long Text",
+      "hidden": 1
+    },
+    {
+      "fieldname": "is_demo",
+      "label": "آزمایشی",
+      "fieldtype": "Check",
+      "read_only": 1
+    }
+  ],
+  "field_order": [
+    "title",
+    "source_type",
+    "source_name",
+    "source_key",
+    "domain",
+    "employee",
+    "reviewer",
+    "status",
+    "review_note",
+    "reviewed_by",
+    "reviewed_at",
+    "source_hash",
+    "snapshot",
+    "is_demo"
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "select": 1
+    },
+    {
+      "role": "Portal Administrator",
+      "read": 1,
+      "select": 1
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC"
+}

@@ -1,6 +1,6 @@
 # معماری و مراحل
 
-- Frappe 16 و اپ saein_portal؛ بدون ERPNext.
+- Frappe 16 و اپ saeenaria_portal؛ بدون ERPNext.
 - MariaDB 11.8 مستقل؛ Redis مستقل برای cache و queue؛ volume پایدار جدا از سرویس‌های فعلی.
 - توسعه روی Windows با Linux containers؛ بسته تولید بعداً با وب، worker، scheduler و websocket مستقل آماده خواهد شد.
 - سه حوزه و تخصیص چندگانه مسئول؛ دسترسی رکورد در سرور بر مبنای تخصیص حوزه.

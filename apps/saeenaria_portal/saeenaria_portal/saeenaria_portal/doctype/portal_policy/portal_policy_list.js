@@ -1,0 +1,1 @@
+frappe.listview_settings["Portal Policy"]={hide_name_column:true,onload(listview){if(['System Manager','Portal Administrator','Company Director'].some(role=>frappe.user.has_role(role)))listview.page.add_inner_button('به‌روزرسانی تعطیلات رسمی',()=>window.location.assign('/portal-holidays'));}};

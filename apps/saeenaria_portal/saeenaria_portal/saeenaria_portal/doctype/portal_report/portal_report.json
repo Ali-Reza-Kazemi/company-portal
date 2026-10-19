@@ -1,0 +1,162 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Report",
+  "module": "Saeenaria Portal",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "format:RPT-{#####}",
+  "track_changes": 1,
+  "field_order": [
+    "domain",
+    "title",
+    "period_start",
+    "period_end",
+    "status",
+    "achievements",
+    "obstacles",
+    "next_plan",
+    "management_comment",
+    "supersedes",
+    "snapshot_view",
+    "snapshot",
+    "is_demo"
+  ],
+  "fields": [
+    {
+      "fieldname": "domain",
+      "label": "حوزه",
+      "fieldtype": "Link",
+      "options": "Portal Domain",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "title",
+      "label": "عنوان",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "period_start",
+      "label": "شروع دوره",
+      "fieldtype": "Date",
+      "reqd": 1,
+      "hidden": 0
+    },
+    {
+      "fieldname": "period_end",
+      "label": "پایان دوره",
+      "fieldtype": "Date",
+      "reqd": 1,
+      "hidden": 0
+    },
+    {
+      "fieldname": "status",
+      "label": "گردش گزارش",
+      "fieldtype": "Select",
+      "options": "Draft\nSubmitted\nNeeds Revision\nApproved",
+      "default": "Draft",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "achievements",
+      "label": "دستاوردها",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "obstacles",
+      "label": "موانع",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "next_plan",
+      "label": "برنامه بعد",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "management_comment",
+      "label": "نظر مدیریت",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "supersedes",
+      "label": "اصلاحیه گزارش",
+      "fieldtype": "Link",
+      "options": "Portal Report"
+    },
+    {
+      "fieldname": "snapshot",
+      "label": "تصویر شاخص‌ها در زمان ارسال",
+      "fieldtype": "Code",
+      "options": "JSON",
+      "read_only": 1,
+      "hidden": 1
+    },
+    {
+      "fieldname": "is_demo",
+      "label": "آزمایشی",
+      "fieldtype": "Check"
+    },
+    {
+      "fieldname": "snapshot_view",
+      "label": "ریز شاخص‌های گزارش",
+      "fieldtype": "HTML"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Portal Administrator",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Company Director",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Domain Officer",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Portal Contributor",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC"
+}

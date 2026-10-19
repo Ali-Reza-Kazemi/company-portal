@@ -1,13 +1,13 @@
 # syntax=docker/dockerfile:1
 FROM frappe/build:version-16 AS builder
 ARG FRAPPE_REF=v16.52.0
-COPY --chown=frappe:frappe apps/saein_portal /opt/saein_portal
+COPY --chown=frappe:frappe apps/saeenaria_portal /opt/saeenaria_portal
 RUN bench init --frappe-branch=${FRAPPE_REF} --no-procfile --no-backups --skip-redis-config-generation /home/frappe/frappe-bench \
- && cp -a /opt/saein_portal /home/frappe/frappe-bench/apps/saein_portal \
+ && cp -a /opt/saeenaria_portal /home/frappe/frappe-bench/apps/saeenaria_portal \
  && cd /home/frappe/frappe-bench \
- && env/bin/pip install --no-cache-dir -e apps/saein_portal \
- && printf 'frappe\nsaein_portal\n' > sites/apps.txt \
- && bench build --app saein_portal
+ && env/bin/pip install --no-cache-dir -e apps/saeenaria_portal \
+ && printf 'frappe\nsaeenaria_portal\n' > sites/apps.txt \
+ && bench build --app saeenaria_portal
 FROM frappe/base:version-16
 COPY --from=builder --chown=frappe:frappe /home/frappe/frappe-bench /home/frappe/frappe-bench
 COPY --from=builder --chown=frappe:frappe /home/frappe/frappe-bench/sites/assets /opt/portal-assets

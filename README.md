@@ -23,9 +23,10 @@ Docker Desktop با Linux containers لازم است. `.env.example` را به `
 docker compose -f compose.dev.yaml up -d
 docker compose -f compose.dev.yaml exec --user root bench chown frappe:frappe /home/frappe/workspace
 docker compose -f compose.dev.yaml exec bench bash /workspace/docker/bootstrap.sh
-docker compose -f compose.dev.yaml exec bench python /workspace/apps/saein_portal/generate_doctypes.py
 docker compose -f compose.dev.yaml exec bench bash /workspace/docker/install-app.sh
-docker compose -f compose.dev.yaml exec bench bash -c 'cd portal-bench && bench --site portal.localhost execute saein_portal.seed.run'
+docker compose -f compose.dev.yaml exec bench bash -c 'cd portal-bench && bench --site portal.localhost execute saeenaria_portal.seed.run'
+docker compose -f compose.dev.yaml exec bench bash -lc 'cd /home/frappe/workspace/portal-bench && bench --site portal.localhost migrate && bench --site portal.localhost enable-scheduler'
+
 docker compose -f compose.dev.yaml restart bench
 ```
 
@@ -34,9 +35,9 @@ docker compose -f compose.dev.yaml restart bench
 ## آزمون‌ها
 
 ```powershell
-docker compose -f compose.dev.yaml exec bench bash -c 'cd portal-bench && bench --site portal.localhost execute saein_portal.smoke.run'
-docker compose -f compose.dev.yaml exec bench bash -c 'cd portal-bench && bench --site portal.localhost execute saein_portal.smoke.extended'
-docker compose -f compose.dev.yaml exec bench bash -c 'cd portal-bench && bench --site portal.localhost execute saein_portal.http_smoke.run'
+docker compose -f compose.dev.yaml exec bench bash -c 'cd portal-bench && bench --site portal.localhost execute saeenaria_portal.smoke.run'
+docker compose -f compose.dev.yaml exec bench bash -c 'cd portal-bench && bench --site portal.localhost execute saeenaria_portal.smoke.extended'
+docker compose -f compose.dev.yaml exec bench bash -c 'cd portal-bench && bench --site portal.localhost execute saeenaria_portal.http_smoke.run'
 ```
 
 آزمون‌های دامنه و قواعد از transaction rollback استفاده می‌کنند و داده عملکردی آزمایشی باقی نمی‌گذارند.
@@ -52,3 +53,12 @@ docker compose -f compose.dev.yaml exec bench bash -c 'cd portal-bench && bench 
 - [وضعیت ادامه کار](PROJECT_STATUS.md)
 
 Compose توسعه روی سرور تولید اجرا نشود. بسته تولید جداست و هنوز آزمون ساخت image و استقرار کامل نشده است.
+
+## ادامه روی رایانه دیگر
+
+کد را از همین مخزن clone یا pull کنید و مراحل اجرای محلی بالا را انجام دهید. دستور `generate_doctypes.py` مربوط به تولید اولیه ساختار است؛ آن را برای راه‌اندازی یا ارتقا اجرا نکنید چون ممکن است تنظیمات جدید فرم‌ها را بازنویسی کند. ساختار فعلی فرم‌ها در مخزن ذخیره شده است.
+
+- داده‌های سایت، کاربران، نقش‌ها، مرخصی‌ها و فایل‌های بارگذاری‌شده در Docker volume هستند و با Git منتقل نمی‌شوند. برای ادامه با همان داده‌ها، بکاپ دیتابیس و فایل‌های سایت و تنظیمات لازم را جداگانه و خصوصی منتقل و بازیابی کنید؛ راهنمای بازیابی در docs/DEPLOYMENT.fa.md است.
+- فایل `.env`، فایل‌های `.local/` و رمزها عمداً در مخزن نیستند. برای نصب تازه از `.env.example` استفاده و رمزهای جدید تعیین کنید.
+- برای ارتقای سایت موجود، پس از دریافت کد `bench --site portal.localhost migrate` و سپس پاک‌سازی cache را اجرا کنید. اگر نام اپ روی رایانه قبلی `saein_portal` بوده، راهنمای تغییر نام و PROJECT_STATUS.md را پیش از ارتقا بررسی کنید؛ نصب فعلی از `saeenaria_portal` استفاده می‌کند.
+- مسیرهای اصلی: `/portal`، `/portal-staff` برای مرخصی و مأموریت، `/portal-reviews` برای بررسی فعالیت‌ها، و `/portal-training` برای آموزش.

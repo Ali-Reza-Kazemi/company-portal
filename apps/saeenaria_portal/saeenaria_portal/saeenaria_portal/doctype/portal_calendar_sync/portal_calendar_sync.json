@@ -1,0 +1,54 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Calendar Sync",
+  "module": "Saeenaria Portal",
+  "custom": 0,
+  "issingle": 1,
+  "track_changes": 1,
+  "fields": [
+    {
+      "fieldname": "last_year",
+      "label": "سال آخرین دریافت",
+      "fieldtype": "Int",
+      "read_only": 1
+    },
+    {
+      "fieldname": "last_sync",
+      "label": "آخرین دریافت موفق",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "source_hash",
+      "label": "اثر انگشت منبع",
+      "fieldtype": "Data",
+      "read_only": 1
+    },
+    {
+      "fieldname": "holiday_count",
+      "label": "تعداد تعطیلات منبع",
+      "fieldtype": "Int",
+      "read_only": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1
+    },
+    {
+      "role": "Portal Administrator",
+      "read": 1
+    },
+    {
+      "role": "Company Director",
+      "read": 1
+    }
+  ],
+  "field_order": [
+    "last_year",
+    "last_sync",
+    "source_hash",
+    "holiday_count"
+  ]
+}

@@ -1,0 +1,17 @@
+:is(body[data-path="login"],body[data-path="update-password"]){background:radial-gradient(ellipse at top right,#e7ecff 0,transparent 55%),#f4f6fc!important;color:#202b49;border-top:5px solid #ed2428;min-height:100vh}
+:is(body[data-path="login"],body[data-path="update-password"]) .page-card{background:#fff!important;border:1px solid #e0e5f4!important;border-radius:20px!important;box-shadow:0 18px 60px #01148b12!important;padding:32px!important;max-width:440px!important;width:100%}
+:is(body[data-path="login"],body[data-path="update-password"]) .page-card-head{align-items:center!important;text-align:center!important;gap:20px!important}
+:is(body[data-path="login"],body[data-path="update-password"]) .app-logo{width:156px!important;height:109px!important;max-height:none!important;object-fit:contain;background:white}
+:is(body[data-path="login"],body[data-path="update-password"]) .page-card-head h4{color:#01148b!important;font-size:23px!important;line-height:1.7!important}
+:is(body[data-path="login"],body[data-path="update-password"]) .page-card-subtitle{color:#636f88!important;line-height:1.9!important;font-size:14px!important}
+:is(body[data-path="login"],body[data-path="update-password"]) .page-card-head-text{text-align:center!important}
+:is(body[data-path="login"],body[data-path="update-password"]) .form-control{background:#f8f9fd!important;border:1px solid #cfd6e9!important;border-radius:9px!important;min-height:46px;color:#202b49!important}
+:is(body[data-path="login"],body[data-path="update-password"]) .form-control:focus{border-color:#01148b!important;box-shadow:0 0 0 3px #01148b16!important}
+:is(body[data-path="login"],body[data-path="update-password"]) #login_email,:is(body[data-path="login"],body[data-path="update-password"]) #login_password{direction:ltr;text-align:left}
+:is(body[data-path="login"],body[data-path="update-password"]) .es-button[data-variant="solid"],:is(body[data-path="login"],body[data-path="update-password"]) .btn-primary{background:#01148b!important;border-color:#01148b!important;color:white!important;border-radius:9px;min-height:44px}
+:is(body[data-path="login"],body[data-path="update-password"]) .es-button[data-variant="solid"]:hover{background:#06116d!important}
+:is(body[data-path="login"],body[data-path="update-password"]) a{color:#01148b!important}:is(body[data-path="login"],body[data-path="update-password"]) .toggle-password{color:#52638c}
+:is(body[data-path="login"],body[data-path="update-password"]) .page-card-actions{margin-top:8px}:is(body[data-path="login"],body[data-path="update-password"]) .page_content{padding-top:38px!important}
+@media(max-width:480px){:is(body[data-path="login"],body[data-path="update-password"]) .page-card{padding:24px!important;border-radius:16px!important}:is(body[data-path="login"],body[data-path="update-password"]) .page_content{padding-top:20px!important}:is(body[data-path="login"],body[data-path="update-password"]) .app-logo{width:136px!important;height:95px!important}}
+
+body[data-path="update-password"] input[type=password],body[data-path="update-password"] input[type=text]{direction:ltr;text-align:left}

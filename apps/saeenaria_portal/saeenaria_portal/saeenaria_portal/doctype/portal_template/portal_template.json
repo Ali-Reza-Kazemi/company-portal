@@ -1,0 +1,181 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Template",
+  "module": "Saeenaria Portal",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "hash",
+  "track_changes": 1,
+  "field_order": [
+    "domain",
+    "title",
+    "description",
+    "responsible_selector",
+    "responsible",
+    "responsible_scope",
+    "frequency",
+    "weekday_selector",
+    "weekday",
+    "day_of_month",
+    "enabled",
+    "allow_external_responsible",
+    "responsible_name",
+    "description_preview"
+  ],
+  "fields": [
+    {
+      "fieldname": "title",
+      "label": "عنوان اقدام",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "responsible_name",
+      "label": "مسئول",
+      "fieldtype": "Data",
+      "read_only": 1,
+      "fetch_from": "responsible.full_name",
+      "in_list_view": 1,
+      "hidden": 0,
+      "depends_on": "eval:false"
+    },
+    {
+      "fieldname": "description_preview",
+      "label": "خلاصه شرح اقدام",
+      "fieldtype": "Data",
+      "read_only": 1,
+      "in_list_view": 1,
+      "hidden": 0,
+      "depends_on": "eval:false"
+    },
+    {
+      "fieldname": "domain",
+      "label": "حوزه",
+      "fieldtype": "Link",
+      "options": "Portal Domain",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "responsible",
+      "label": "مسئول",
+      "fieldtype": "Link",
+      "options": "User",
+      "hidden": 1
+    },
+    {
+      "fieldname": "frequency",
+      "label": "تناوب",
+      "fieldtype": "Select",
+      "options": "Daily\nWeekly\nMonthly\nQuarterly",
+      "reqd": 1
+    },
+    {
+      "fieldname": "weekday",
+      "label": "روز هفته",
+      "fieldtype": "Int",
+      "default": "5",
+      "hidden": 1
+    },
+    {
+      "fieldname": "day_of_month",
+      "label": "روز ماه شمسی",
+      "fieldtype": "Int",
+      "default": "1",
+      "depends_on": "eval:['Monthly','Quarterly'].includes(doc.frequency)"
+    },
+    {
+      "fieldname": "enabled",
+      "label": "فعال",
+      "fieldtype": "Check",
+      "default": "0"
+    },
+    {
+      "fieldname": "weekday_selector",
+      "fieldtype": "HTML",
+      "label": "روز هفته",
+      "depends_on": "eval:doc.frequency=='Weekly'"
+    },
+    {
+      "fieldname": "responsible_scope",
+      "label": "دامنه انتخاب مسئول",
+      "fieldtype": "HTML"
+    },
+    {
+      "fieldname": "allow_external_responsible",
+      "label": "انتخاب مسئول از سایر حوزه‌ها",
+      "fieldtype": "Check",
+      "default": "0",
+      "hidden": 1
+    },
+    {
+      "fieldname": "responsible_selector",
+      "fieldtype": "HTML",
+      "label": "مسئول"
+    },
+    {
+      "fieldname": "description",
+      "label": "شرح اقدام و خروجی مورد انتظار",
+      "fieldtype": "Text",
+      "description": "جزئیات کار، روش انجام، محدوده و نتیجه‌ای که باید تحویل داده شود را بنویسید."
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Portal Administrator",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Company Director",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 0,
+      "write": 0,
+      "delete": 0
+    },
+    {
+      "role": "Domain Officer",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    },
+    {
+      "role": "Portal Contributor",
+      "read": 1,
+      "select": 1,
+      "print": 1,
+      "export": 1,
+      "create": 1,
+      "write": 1,
+      "delete": 0
+    }
+  ],
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "title_field": "title",
+  "show_title_field_in_link": 1,
+  "search_fields": "title,responsible_name,description_preview"
+}
