@@ -1,0 +1,34 @@
+target-version = "py313"
+line-length = 100
+# Enforce the refactored boundaries first; extend this list as legacy modules migrate.
+include = [
+  "apps/saeenaria_portal/saeenaria_portal/api.py",
+  "apps/saeenaria_portal/saeenaria_portal/services/*.py",
+  "apps/saeenaria_portal/saeenaria_portal/testing.py",
+  "apps/saeenaria_portal/saeenaria_portal/smoke.py",
+  "apps/saeenaria_portal/saeenaria_portal/http_smoke.py",
+  "apps/saeenaria_portal/saeenaria_portal/reviews.py",
+  "apps/saeenaria_portal/saeenaria_portal/csv_safety.py",
+  "apps/saeenaria_portal/saeenaria_portal/purchase_reports/workflow.py",
+  "apps/saeenaria_portal/saeenaria_portal/purchase_reports/workflow_data.py",
+  "apps/saeenaria_portal/saeenaria_portal/purchase_reports/workflow_storage.py",
+  "apps/saeenaria_portal/saeenaria_portal/purchase_reports/sources.py",
+  "apps/saeenaria_portal/saeenaria_portal/purchase_reports/native_analytics.py",
+  "apps/saeenaria_portal/saeenaria_portal/purchase_reports/portal_inputs.py",
+  "apps/saeenaria_portal/saeenaria_portal/purchase_reports/incoming_orders.py",
+  "docker/test-native-analytics.py",
+  "docker/test-native-purchase-pipeline.py",
+  "docker/test-incoming-orders.py",
+  "docker/verify-native-purchasing.py",
+  "apps/saeenaria_portal/saeenaria_portal/purchase_reports/incoming_excel.py",
+  "docker/test-incoming-import-bulk.py",
+  "docker/check-code.py",
+  "docker/test_support.py",
+  "docker/run-regressions.py",
+  "docker/export-runtime-constraints.py",
+  "docker/test-service-permissions.py",
+  "docker/test-source-connections.py",
+]
+
+[lint]
+select = ["E4", "E7", "E9", "F", "I"]

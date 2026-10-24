@@ -1,0 +1,80 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Review Delegation",
+  "module": "Saeenaria Portal",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "hash",
+  "track_changes": 1,
+  "fields": [
+    {
+      "fieldname": "domain",
+      "label": "حوزه",
+      "fieldtype": "Link",
+      "options": "Portal Domain",
+      "reqd": 1
+    },
+    {
+      "fieldname": "reviewer",
+      "label": "بررسی‌کننده",
+      "fieldtype": "Link",
+      "options": "User",
+      "reqd": 1
+    },
+    {
+      "fieldname": "start_date",
+      "label": "شروع واگذاری",
+      "fieldtype": "Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "end_date",
+      "label": "پایان واگذاری",
+      "fieldtype": "Date"
+    },
+    {
+      "fieldname": "enabled",
+      "label": "فعال",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "scope",
+      "label": "دامنه تنفیذ",
+      "fieldtype": "Select",
+      "options": "Reports\nDomain\nSeries",
+      "default": "Reports"
+    },
+    {
+      "fieldname": "selection_json",
+      "label": "فعالیت‌های منتخب",
+      "fieldtype": "Long Text"
+    },
+    {
+      "fieldname": "is_demo",
+      "label": "آموزشی",
+      "fieldtype": "Check",
+      "default": "0"
+    }
+  ],
+  "field_order": [
+    "domain",
+    "reviewer",
+    "start_date",
+    "end_date",
+    "enabled",
+    "scope",
+    "selection_json",
+    "is_demo"
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1
+    },
+    {
+      "role": "Portal Administrator",
+      "read": 1
+    }
+  ]
+}

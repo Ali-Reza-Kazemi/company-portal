@@ -1,4 +1,83 @@
+## خروج دریافت و محاسبه خودکار از تکالیف انسانی — ۱۴۰۵/۰۷/۲۹
+- درخواست مدیریت اعمال شد: نتایج خودکار دیدار/سپیدار در گزارش و نمودار باقی می‌مانند؛ تکلیف انسانی یا صف تأیید ندارند. ۵ الگوی خودکار غیرفعال، ۴ کار باز بایگانی و ۸ بررسی در انتظار از گردش انسانی خارج شدند؛ داده و سوابق قبلی حذف یا به‌جای انسان تأیید نشدند.
+- کارهای انسانی باقی‌مانده: ثبت پیش‌بینی، شمارش واقعی، ثبت آلارم/اتصال رسید و تصمیم خرید. عنوان‌ها برای تمرکز بر ثبت و اقدام انسانی اصلاح شدند.
+- automatic_work.py معیار تشخیص ثابت خروجی ماشینی را نگه می‌دارد. تولید برنامه، فهرست کارها، sync و صف بررسی از ایجاد/نمایش تکلیف خودکار جلوگیری می‌کنند. فرم ارسال/تأیید داشبورد حذف و مسیر submit مسدود شد؛ نسخه‌های گزارش و نمودارها همچنان ثبت می‌شوند. هشدار اختلاف داده دیدار باقی است.
+- تست تراکنشی docker/test-automatic-work.py موفق؛ تمام داده آزمون rollback شد. پشتیبان پیش از تغییر: 20261021_141555.
+
+## ساده‌سازی انتخاب فعالیت برای تنفیذ
+صفحه بررسی فقط داده واقعی درخواست می‌کند و انتخاب نوع داده حذف شده است. پس از انتخاب حوزه، فهرست برنامه‌ها، شاخص‌ها، گزارش‌ها و موارد جاری قابل تنفیذ با تیک انتخاب یک/چند/همه نمایش داده می‌شود؛ پیش‌نمایش نهایی دامنه را مشخص می‌کند. فرم جداگانه واگذاری یکباره از رابط حذف شد. تنفیذ برنامه‌های تکرارشونده همچنان نوبت‌های آینده را تا لغو یا تنفیذ مجدد پوشش می‌دهد. آزمون انتخاب همه (۳۱ مورد) و انتخاب جزئی (یک مورد) در مرورگر موفق بود؛ ثبت واقعی انجام نشد.
+
+## فیلتر حوزه و تنفیذ مستمر بررسی — ۱۴۰۵/۰۷/۲۸
+- در /portal-reviews فیلتر حوزه اضافه شد. مدیر می‌تواند کل حوزه یا برنامه‌های تکرارشونده/شاخص‌ها/گزارش‌های منتخب را تا لغو یا تنفیذ مجدد به بررسی‌کننده دیگری بسپارد؛ پیش‌نمایش دامنه قبل از ثبت نمایش داده می‌شود.
+- دامنه Series بر شناسه پایدار Portal Template (برگرفته از schedule_key)، شناسه شاخص یا نوع گزارش موجودی تکیه دارد؛ عنوان متن معیار تطبیق نیست. نوبت‌های آینده همان برنامه هم پوشش داده می‌شوند.
+- تنفیذ جدید، تنفیذ گروهی قبلی همان حوزه و نوع داده را غیرفعال می‌کند و سابقه باقی می‌ماند؛ مسئول انجام کار، نقش‌ها، عضویت واحد و تأییدهای قبلی تغییر نمی‌کنند. مدیر اصلی می‌تواند مستقیماً تأیید نهایی کند؛ خودتأییدی ممنوع است.
+- موارد غیرتکراری با انتخاب جزئی یا انتخاب همه قابل واگذاری‌های فهرست و پیش‌نمایش نسخه‌دار واگذار می‌شوند؛ کنترل حوزه/مجوز/نسخه در سرور انجام می‌شود. برای موارد دوره‌ای، واگذاری یکباره گروهی مسدود است.
+- واگذاری واقعی فعال نشده است؛ تمام آزمون‌ها rollback شدند. test-review-routing.py و test-review-delegation.py موفق.
+
+## واگذاری موقت بررسی گزارش‌های کنترل انبار — ۱۴۰۵/۰۷/۲۸
+- در /portal-reviews امکان تعیین بررسی‌کننده گروهی برای گزارش‌های فعلی و آینده inventory با تاریخ شروع/پایان شمسی و پایان دستی اضافه شد؛ هیچ واگذاری واقعی از طرف عامل فعال نشده است و مدیر می‌تواند ترانه حسنپور را در فرم انتخاب کند.
+- DocType جدید Portal Review Delegation، تاریخچه و اعتبارسنجی سمت سرور، جلوگیری از همپوشانی بازه‌ها؛ مسئول گزارش و نقش‌ها و عضویت واحد تغییر نمی‌کنند. مرخصی و مأموریت مستقل مانده‌اند.
+- مدیر شرکت/سامانه حتی در حضور بررسی‌کننده اختصاصی یا گروهی می‌تواند تأیید نهایی کند؛ تأییدشده دوباره به بررسی‌کننده ارجاع نمی‌شود. ممنوعیت تأیید فعالیت خود فرد حفظ شد.
+- فهرست بررسی بر اساس Pending/Returned/Approved/Cancelled گروه‌بندی شده و فیلتر گزارش‌های کنترل انبار دارد.
+- تست‌های تراکنشی test-review-delegation.py، test-staff-reviews.py و test-inventory-workflow.py موفق؛ تست‌ها rollback شده‌اند. پشتیبان پیش از تغییر: 20261020_130843.
+
 # وضعیت پروژه
+
+## 2026-10-19 — Alireza inventory performance plan and immutable period history
+
+User explicitly replaced all Alireza recurring work: after full site backup and
+transactional tests, removed 18 old templates, cancelled 8 open generated actions
+with audit/history retained, and created 9 active templates/actions (1 weekly,
+8 monthly). Completed actions, ad hoc work and other employees' schedules remain.
+One initial non-recurring forecast baseline action is due 2026-10-21, before Aban
+starts; freezing the six-group forecast completes it automatically. Nine recurring
+templates remain; the initial live list therefore has ten open activities.
+Added /portal-inventory: weekly resolved-request stockout cancellations from actual
+analytics.Deal schema, monthly official-sale-price capital/stagnant valuation,
+quantity turnover, alarm-to-receipt lead time, locked six-group forecast accuracy,
+stock-count variance, urgent purchase plan and six-category liquidity in toman.
+Official sale price is explicitly the temporary user-selected basis; numerator
+and denominator definitions are preserved. No arbitrary KPI targets were created.
+Immutable Portal Inventory Snapshot revisions hold period, policy, evidence and
+chart summaries; submitted Portal Reports freeze the selected version, use existing
+activity reviews, preserve approved reports and prohibit self-approval. System-created
+metric values have separate responsible identity; numeric capacity expanded to
+decimal(30,9) to retain large rial values. Forecast, physical count and explicit
+receipt linkage remain human evidence inputs. Positive-to-zero observed stock alerts
+are automatic; first observation never invents a historical alarm.
+Daily Frappe capture hook active; manual background capture validated. Current saved
+periods: week 2026-10-10..16, month 2026-08-23..09-22, cash as of 2026-10-19. Weekly
+3/81 = 3.70% independently matched SQL. Historical month uses current mapped policy
+and is labelled accordingly. Three monthly metrics currently Missing (lead time,
+forecast accuracy, physical variance) rather than fabricated zeros. Seven policy
+checks, transactional integration tests and existing staff/review rollback tests
+pass; live UI and SVG download checked. Docs: docs/INVENTORY_WORKFLOW_FA.md.
+
+## 2026-10-19 — Native purchase reports with live sources
+
+Added `/portal-purchase` for eight reports from the supplied PurchaseOrder model,
+with native Persian tables, filters, full-filter summaries, pagination and CSV.
+Access is enforced for portal administrators, Company Director, and the active
+inventory unit manager; no memberships or existing workflow permissions changed.
+Translated reference-group ordering, packing/minimums, manual controls, approved
+ideal inventory and quantity turnover; fixed SELECTs for SQL Server/MySQL, private
+snapshots and background refresh preserve prior successful data on failure.
+Private reference archive and connection settings remain ignored by Git.
+Eleven pure calculation checks and bench report permission/aggregation checks pass.
+After correcting the MySQL account/source access, both sources connect successfully.
+Live snapshots: 7,376 combined-stock order rows (73,760 including warehouse variants),
+572 ideal/budget rows, 8 reconciliation rows, 1,535 sediment rows, 17,608 target rows,
+4,983 turnover rows and 57 weekly rows. All eight reports and CSV exports pass;
+a real multi-code reference's inventory and average monthly net sales independently
+matched parameterized SQL Server queries. Browser checks covered all tabs, category
+filter (127 budget rows), CSV download, pagination, sorting, management-hub link
+and large-number layout. Source MySQL ETL last succeeded on 2026-10-17; its timestamp
+is displayed separately from portal extraction time. Background refresh was also
+triggered from the browser. Per user authorization, the inventory account (Alireza
+Kazemi) has explicit report-only access through private purchase_order_viewers;
+its test non-manager assignment and all other roles remain unchanged. Report-only
+users receive only the purchase-report section of the management hub.
+Details: docs/PURCHASE_REPORTS_FA.md. No source data or existing site records changed.
 
 ۲۰۲۶-۱۰-۱۴ — نسخه اولیه محلی 0.1.0
 
@@ -271,3 +350,23 @@ Grouped the hourly date, start time and end time in one responsive three-column 
 
 ## 2026-10-19 — Git handoff to another computer
 Prepared accumulated portal changes for origin/main. Updated README fresh-install instructions to avoid rerunning the legacy DocType generator and added code-versus-database transfer guidance. Local environment secrets, .local and Docker data remain ignored. Staged source and presentation XML scanned against local secret values and common token/private-key patterns with no matches. Current inline JS and transactional staff/activity review checks passed.
+
+
+## خرید مستقل از فایل اکسل — ۲۰۲۶-۱۰-۲۴
+
+- خواندن تمام جدول‌های انتقال شیت، وضعیت workbook و نماهای ETL از مسیر خرید و پایش حذف شد. هشت گزارش فقط از facts سپیدار و اطلاعات داخلی پورتال تولید و به‌صورت یک snapshot اتمی منتشر می‌شوند؛ پردازنده `portal-native-v2` است.
+- تنظیمات و نگاشت قبلی حفظ شدند؛ نصب تازه از پیش‌فرض داخلی و کالاهای مستقیم سپیدار استفاده می‌کند. غیرفعال‌کردن initialized هیچ fallback بیرونی فعال نمی‌کند.
+- سفارش‌های در راه با ساختار بومی، اعتبارسنجی، کنترل هم‌زمانی و تاریخچه، در `/portal-purchase#incoming` مدیریت می‌شوند. منبع قدیمی پیش از قطع صفر ردیف داشت.
+- تب مستقل مغایرت حذف و لینک `#reconcile` به فیلتر issues در کاتالوگ منتقل شد. API قبلی برای سازگاری از داده بومی پاسخ می‌دهد.
+- قبل از migrate پشتیبان دیتابیس و snapshot تهیه شد؛ هشت گزارش خرید و هر سه پایش Weekly/Cash/Monthly روی داده واقعی بدون خطا بازسازی شدند. بررسی HTTP احراز هویت‌شده، صفحات/فایل‌های جدید و پاسخ هر هشت گزارش را تأیید کرد. آزمون‌های فرمول، امنیت، مجوز و نبود fallback قدیمی موفق‌اند.
+- فایل مرجع قدیمی و سرویس‌های مشترک بیرونی حذف یا تغییر داده نشدند. قابلیت ورود اختیاری شمارش انبار و خروجی فایل کاربرد مستقل دارد. این تغییر روی محیط توسعه محلی فعال شده است.
+
+
+### تکمیل سفارش‌های در راه — ۲۰۲۶-۱۰-۲۴
+
+ورود اختیاری XLSX با قالب فارسی، پیش‌نمایش بدون نوشتن، ایجاد/ویرایش بر پایه شناسه ردیف، تأیید تراکنشی و محافظت از ویرایش هم‌زمان اضافه شد. فرم و قالب اکسل تاریخ شمسی می‌پذیرند و نمایش جدول هم شمسی است؛ انتخابگر موجود تقویم پورتال برای این ورودی فعال شد. تغییر گروهی وضعیت با انتخاب ردیف‌های چند صفحه، کنترل نسخه و ذخیره اتمی اضافه شد. عنوان شماره سفارش به کد سفارش تغییر کرد؛ نوع Data قبلی حفظ شد تا حروف، عدد، صفرهای ابتدایی و داده‌های موجود محفوظ باشند. آزمون ورود/ویرایش، تکرار درخواست، خطای ردیف آخر، تاریخ نامعتبر، فرمول، قالب Text و دسترسی موفق بود.
+
+
+### شناسه خودکار سفارش‌های در راه — ۲۰۲۶-۱۰-۲۴
+
+شناسه داخلی جدید توسط سرور تولید می‌شود و از فرم، جدول و قالب XLSX حذف شد. داده‌های موجود شناسه و تاریخچه خود را حفظ می‌کنند. قالب جدید هفت ستون دارد و تطبیق ورود اکسل بر پایه کد سفارش و کد مرجع انجام می‌شود. تکرار فایل، ردیف موجود را ویرایش می‌کند؛ ترکیب تکراری در فایل یا چند ردیف قدیمی مبهم رد می‌شوند. commit ورودهای اکسل به‌صورت سری و اتمی انجام و ظهور ردیف جدید پس از پیش‌نمایش بررسی می‌شود. آزمون تولید خودکار، حفظ شناسه قدیمی، بارگذاری مجدد فایل، ابهام، ویرایش هم‌زمان، تاریخ شمسی، تغییر گروهی و دسترسی موفق بود.

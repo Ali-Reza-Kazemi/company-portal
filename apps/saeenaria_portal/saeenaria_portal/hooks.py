@@ -22,6 +22,10 @@ for _dt in SCOPED:
     has_permission[_dt] = "saeenaria_portal.permissions.scoped_permission"
     doc_events[_dt] = {"validate": "saeenaria_portal.rules.validate"}
 scheduler_events = {"daily": ["saeenaria_portal.holidays.auto_sync", "saeenaria_portal.schedule.generate_today"]}
+scheduler_events["hourly"] = ["saeenaria_portal.purchase_reports.service.auto_refresh"]
+scheduler_events["daily"].append("saeenaria_portal.purchase_reports.workflow.enqueue_daily")
+has_permission["Portal Inventory Snapshot"] = "saeenaria_portal.purchase_reports.workflow.snapshot_permission"
+permission_query_conditions["Portal Inventory Snapshot"] = "saeenaria_portal.purchase_reports.workflow.snapshot_query"
 
 app_include_css = ["/assets/saeenaria_portal/css/typography.css"]
 web_include_css = ["/assets/saeenaria_portal/css/typography.css"]
@@ -53,3 +57,9 @@ has_permission["Portal Staff Request"] = "saeenaria_portal.staff_requests.reques
 permission_query_conditions["Portal Staff Request"] = "saeenaria_portal.staff_requests.request_query"
 
 after_migrate.append("saeenaria_portal.staff_requests.migrate_legacy")
+
+# Read-only Sepidar item synchronization; enrichment remains portal-owned.
+scheduler_events.setdefault("hourly", []).append("saeenaria_portal.purchase_reports.product_catalog.auto_sync")
+
+# Native defaults never fall back to an external workbook store.
+after_migrate.append("saeenaria_portal.purchase_reports.general_settings.initialize")

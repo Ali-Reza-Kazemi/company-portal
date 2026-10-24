@@ -15,7 +15,7 @@ def nominal_dates(template, start, end):
     date = getdate(start)
     while date <= getdate(end):
         jalali = jdatetime.date.fromgregorian(date=date)
-        if template.frequency == "Daily" or (template.frequency == "Weekly" and date.weekday() == template.weekday) or (template.frequency == "Monthly" and jalali.day == template.day_of_month) or (template.frequency == "Quarterly" and jalali.month in (1,4,7,10) and jalali.day == template.day_of_month):
+        if template.frequency == "Daily" or (template.frequency == "Weekly" and date.weekday() == template.weekday) or (template.frequency == "Monthly" and jalali.day == template.day_of_month) or (template.frequency == "Semiannual" and jalali.month in (1,7) and jalali.day == template.day_of_month) or (template.frequency == "Quarterly" and jalali.month in (1,4,7,10) and jalali.day == template.day_of_month):
             yield date
         date += datetime.timedelta(days=1)
 
@@ -30,11 +30,16 @@ def generate(start=None, end=None):
     holidays = {getdate(d) for d in frappe.get_all("Portal Holiday",filters={"enabled":1},pluck="date")}
     created = 0
     for t in frappe.get_all("Portal Template",filters={"enabled":1},fields=["*"]):
-        if not t.responsible: continue
+        from saeenaria_portal.automatic_work import automatic_template
+        if not t.responsible or automatic_template(t.name): continue
         for nominal in nominal_dates(t,start,end):
             if t.frequency == "Daily" and (nominal.weekday() in (3,4) or nominal in holidays): continue
             due = next_workday(nominal,holidays)
             key = f"{t.name}:{nominal.isoformat()}"
+            if t.name == "INVPLAN-forecast":
+                from saeenaria_portal.purchase_reports.workflow_math import month_bounds
+                target = month_bounds(nominal)[1] + datetime.timedelta(days=1)
+                key = f"{t.name}:{target.isoformat()}"
             if frappe.db.exists("Portal Action",{"schedule_key":key}): continue
             try:
                 frappe.get_doc({"doctype":"Portal Action","title":t.title,"description":t.description,"domain":t.domain,"responsible":t.responsible,"due_date":due,"start_date":due,"schedule_key":key}).insert()

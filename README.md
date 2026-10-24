@@ -50,9 +50,11 @@ docker compose -f compose.dev.yaml exec bench bash -c 'cd portal-bench && bench 
 - [استقرار، ارتقا، پشتیبان و بازیابی](docs/DEPLOYMENT.fa.md)
 - [اتصال‌های آینده](docs/INTEGRATIONS.fa.md)
 - [محدودیت‌ها](docs/LIMITATIONS.fa.md)
+- [گزارش بررسی ساختار و امنیت](docs/CODE_SECURITY_REVIEW_FA.md)
+- [تنظیمات امن منابع و اجرای مجموعه آزمون‌ها](docs/SECURE_CONFIGURATION_FA.md)
 - [وضعیت ادامه کار](PROJECT_STATUS.md)
 
-Compose توسعه روی سرور تولید اجرا نشود. بسته تولید جداست و هنوز آزمون ساخت image و استقرار کامل نشده است.
+Compose توسعه روی سرور تولید اجرا نشود. بسته تولید جداست؛ ساخت image و بررسی آفلاین آن موفق شده، اما استقرار انتها به انتها، HTTPS و TLS منابع واقعی هنوز باید در staging تأیید شوند.
 
 ## ادامه روی رایانه دیگر
 
@@ -62,3 +64,6 @@ Compose توسعه روی سرور تولید اجرا نشود. بسته تول
 - فایل `.env`، فایل‌های `.local/` و رمزها عمداً در مخزن نیستند. برای نصب تازه از `.env.example` استفاده و رمزهای جدید تعیین کنید.
 - برای ارتقای سایت موجود، پس از دریافت کد `bench --site portal.localhost migrate` و سپس پاک‌سازی cache را اجرا کنید. اگر نام اپ روی رایانه قبلی `saein_portal` بوده، راهنمای تغییر نام و PROJECT_STATUS.md را پیش از ارتقا بررسی کنید؛ نصب فعلی از `saeenaria_portal` استفاده می‌کند.
 - مسیرهای اصلی: `/portal`، `/portal-staff` برای مرخصی و مأموریت، `/portal-reviews` برای بررسی فعالیت‌ها، و `/portal-training` برای آموزش.
+
+
+گزارش‌های خرید و موجودی از ۲۰۲۶-۱۰-۲۴ به فایل تنظیمات اکسل یا ETL آن وابسته نیستند: داده‌های عملیاتی مستقیماً از سپیدار و سیاست، کاتالوگ و سفارش‌های در راه از دیتابیس پورتال خوانده می‌شوند. مدیریت مانده سفارش‌ها در `/portal-purchase#incoming` و بررسی مغایرت و تکمیل کالا در `/portal-products?status=issues` انجام می‌شود. راه‌اندازی و ارتقا: [گزارش‌های خرید](docs/PURCHASE_REPORTS_FA.md) و [استقرار](docs/DEPLOYMENT.fa.md).

@@ -6,3 +6,7 @@
 #request-time-row.is-hourly{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.4fr) repeat(2,minmax(0,1fr));gap:16px;align-items:end}
 #request-time-row>*{min-width:0}
 @media(max-width:650px){#request-time-row.is-hourly{gap:8px;grid-template-columns:minmax(0,1.4fr) repeat(2,minmax(0,1fr))}#request-time-row.is-hourly input{padding:8px 4px}#request-time-row.is-hourly label{font-size:12px}#request-time-row.is-hourly .portal-date-field input{padding-inline-end:30px}}
+
+.review-stage{border:1px solid #dce3f4;border-radius:12px;margin:18px 0;padding:14px;background:#f6f8fc}.review-stage>summary{font-weight:700;color:#01148b;cursor:pointer}.review-stage>.review-card{margin-bottom:0}
+
+#delegation-series{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px;margin:16px 0}#delegation-series label{border:1px solid #dce3f4;border-radius:8px;padding:12px;display:flex;align-items:flex-start;gap:8px;margin:0}#delegation-series input,.review-select-all input{width:auto;flex:none;margin-top:6px}.review-select-all{font-weight:bold}

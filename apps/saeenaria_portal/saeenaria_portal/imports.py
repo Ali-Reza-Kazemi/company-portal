@@ -1,6 +1,7 @@
 """Two-phase CSV import. Validation and insertion share the same document rules."""
 import csv
 import io
+from itertools import islice
 import frappe
 from frappe.utils import cint, flt
 from saeenaria_portal.permissions import admin, roles
@@ -16,12 +17,13 @@ def import_csv(doctype, content, confirm=0):
     if doctype not in FIELDS:
         frappe.throw("نوع فایل پشتیبانی نمی‌شود")
     frappe.has_permission(doctype,"create",throw=True)
-    if len(content.encode("utf-8")) > 1_000_000:
+    if not isinstance(content, str) or len(content.encode("utf-8")) > 1_000_000:
         frappe.throw("حداکثر حجم فایل یک مگابایت است")
     reader = csv.DictReader(io.StringIO(content.lstrip("\ufeff")))
-    if not reader.fieldnames or set(reader.fieldnames) - FIELDS[doctype]:
+    if (not reader.fieldnames or set(reader.fieldnames) - FIELDS[doctype]
+            or len(reader.fieldnames) != len(set(reader.fieldnames))):
         frappe.throw("نام ستون‌ها معتبر نیست؛ از قالب نمونه استفاده کنید")
-    records = list(reader)
+    records = list(islice(reader, 201))
     if not records or len(records) > 200:
         frappe.throw("فایل باید بین یک تا دویست سطر داشته باشد")
     errors, docs, seen = [], [], set()

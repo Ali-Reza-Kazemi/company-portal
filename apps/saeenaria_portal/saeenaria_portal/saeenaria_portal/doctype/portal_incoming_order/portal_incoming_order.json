@@ -1,0 +1,84 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Incoming Order",
+  "module": "Saeenaria Portal",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "field:order_key",
+  "track_changes": 1,
+  "field_order": [
+    "order_key",
+    "order_number",
+    "reference_code",
+    "quantity",
+    "status",
+    "expected_date",
+    "supplier",
+    "notes"
+  ],
+  "fields": [
+    {
+      "fieldname": "order_key",
+      "label": "شناسه یکتای ردیف سفارش",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "unique": 1,
+      "hidden": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "order_number",
+      "label": "کد سفارش",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "reference_code",
+      "label": "کد کالای مرجع",
+      "fieldtype": "Link",
+      "options": "Portal Product Catalog",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "quantity",
+      "label": "تعداد باقی‌مانده در راه",
+      "fieldtype": "Float",
+      "precision": "9",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "status",
+      "label": "وضعیت",
+      "fieldtype": "Select",
+      "options": "Active\nReceived\nCancelled",
+      "default": "Active",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "expected_date",
+      "label": "تاریخ مورد انتظار",
+      "fieldtype": "Date"
+    },
+    {
+      "fieldname": "supplier",
+      "label": "تأمین‌کننده",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "notes",
+      "label": "توضیحات",
+      "fieldtype": "Small Text"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 0,
+      "create": 0,
+      "delete": 0
+    }
+  ]
+}

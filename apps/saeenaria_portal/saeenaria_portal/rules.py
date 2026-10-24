@@ -34,6 +34,8 @@ def validate(doc, method=None):
         frappe.throw("پایان دوره پیش از شروع است")
     private_evidence(doc)
     if doc.doctype == "Portal Metric Value":
+        if not manager and (doc.get("responsible") or "") != (before.get("responsible") or "" if before else ""):
+            frappe.throw("تغییر مسئول مقدار شاخص فقط برای مدیریت مجاز است",frappe.PermissionError)
         if not manager:
             baseline_flag = cint(before.has_target) if before else 0
             baseline_target = flt(before.target) if before else 0
@@ -54,6 +56,13 @@ def validate(doc, method=None):
         if doc.direction == "Lower" and doc.red_threshold < doc.green_threshold:
             frappe.throw("آستانه قرمز باید بیشتر از سبز باشد")
     if doc.doctype == "Portal Report":
+        if before and before.get("inventory_snapshot") != doc.get("inventory_snapshot"):
+            frappe.throw("نسخه مبنای گزارش موجود قابل تعویض نیست؛ گزارش تازه ثبت کنید")
+        if doc.get("inventory_snapshot"):
+            basis=frappe.get_doc("Portal Inventory Snapshot",doc.inventory_snapshot)
+            if not delegated_review:basis.check_permission("read")
+            if basis.domain!=doc.domain or getdate(basis.period_start)!=getdate(doc.period_start) or getdate(basis.period_end)!=getdate(doc.period_end):
+                frappe.throw("دوره و حوزه گزارش با نسخه مبنا یکسان نیست")
         if doc.status in ("Approved", "Needs Revision") and (not before or doc.status != before.status) and not delegated_review:
             frappe.throw("تأیید یا برگشت گزارش از صفحه بررسی و تأیید فعالیت‌ها انجام می‌شود")
         if before and before.status == "Approved":
@@ -72,8 +81,12 @@ def validate(doc, method=None):
             if previous.domain != doc.domain or previous.status != "Approved":
                 frappe.throw("اصلاحیه باید به گزارش تأییدشده همین حوزه ارجاع دهد")
         if doc.status == "Submitted" and old != "Submitted":
-            from saeenaria_portal.metrics import overview
-            doc.snapshot = json.dumps(overview(doc.domain, doc.period_start, doc.period_end, doc.is_demo), ensure_ascii=False, default=str)
+            if doc.get("inventory_snapshot"):
+                from saeenaria_portal.purchase_reports.workflow import report_metric_snapshot
+                doc.snapshot=json.dumps(report_metric_snapshot(doc.inventory_snapshot),ensure_ascii=False,default=str)
+            else:
+                from saeenaria_portal.metrics import overview
+                doc.snapshot = json.dumps(overview(doc.domain, doc.period_start, doc.period_end, doc.is_demo), ensure_ascii=False, default=str)
         elif before:
             doc.snapshot = before.snapshot
     if doc.doctype == "Portal Decision":

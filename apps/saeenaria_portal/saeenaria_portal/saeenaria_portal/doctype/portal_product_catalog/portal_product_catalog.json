@@ -1,0 +1,129 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Product Catalog",
+  "module": "Saeenaria Portal",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "field:item_code",
+  "issingle": 0,
+  "track_changes": 1,
+  "field_order": [
+    "item_code",
+    "item_title",
+    "category",
+    "reference_code",
+    "review_status",
+    "order_control",
+    "orderable",
+    "notes",
+    "source_present",
+    "needs_completion",
+    "source_updated_at",
+    "source_conflict",
+    "source_titles",
+    "is_planned"
+  ],
+  "fields": [
+    {
+      "fieldname": "item_code",
+      "label": "کد کالا",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "unique": 1,
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "item_title",
+      "label": "نام کالا در سپیدار",
+      "fieldtype": "Data",
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "category",
+      "label": "گروه کالا",
+      "fieldtype": "Data",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "reference_code",
+      "label": "کد کالای مرجع",
+      "fieldtype": "Link",
+      "options": "Portal Product Catalog"
+    },
+    {
+      "fieldname": "review_status",
+      "label": "وضعیت بررسی",
+      "fieldtype": "Select",
+      "options": "نیازمند بررسی\nتأیید شده\nغیرفعال",
+      "default": "نیازمند بررسی"
+    },
+    {
+      "fieldname": "order_control",
+      "label": "کنترل سفارش",
+      "fieldtype": "Select",
+      "options": "خودکار\nممنوع دستی\nمجاز دستی",
+      "default": "خودکار"
+    },
+    {
+      "fieldname": "orderable",
+      "label": "کالای سفارش‌پذیر",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "notes",
+      "label": "توضیحات",
+      "fieldtype": "Small Text"
+    },
+    {
+      "fieldname": "source_present",
+      "label": "موجود در سپیدار",
+      "fieldtype": "Check",
+      "read_only": 1,
+      "default": "1"
+    },
+    {
+      "fieldname": "needs_completion",
+      "label": "نیازمند تکمیل",
+      "fieldtype": "Check",
+      "read_only": 1,
+      "in_list_view": 1,
+      "default": "1"
+    },
+    {
+      "fieldname": "source_updated_at",
+      "label": "آخرین تغییر اطلاعات منبع",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "source_conflict",
+      "label": "کد تکراری در سپیدار",
+      "fieldtype": "Check",
+      "read_only": 1
+    },
+    {
+      "fieldname": "source_titles",
+      "label": "نام‌های متعارض در سپیدار",
+      "fieldtype": "Small Text",
+      "read_only": 1
+    },
+    {
+      "fieldname": "is_planned",
+      "label": "مرجع سفارش پیش از تعریف در سپیدار",
+      "fieldtype": "Check",
+      "read_only": 1,
+      "default": "0"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 0,
+      "create": 0,
+      "delete": 0
+    }
+  ]
+}

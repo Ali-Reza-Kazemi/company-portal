@@ -1,7 +1,7 @@
 name: saeenaria-portal-dev
 services:
   db:
-    image: mariadb:11.8
+    image: mariadb:11.8@sha256:f16d7a344413e519dff518f27bdb221388f84b0d274c97c4fb5f2cb0dc1b34fa
     command: [--character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --skip-character-set-client-handshake]
     environment:
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD}
@@ -13,11 +13,11 @@ services:
       timeout: 5s
       retries: 30
   redis-cache:
-    image: redis:7.4-alpine
+    image: redis:7.4-alpine@sha256:858f009f9709ce576febc734aa78b8f6d624b82571f9ddb6bda4377c833b3499
   redis-queue:
-    image: redis:7.4-alpine
+    image: redis:7.4-alpine@sha256:858f009f9709ce576febc734aa78b8f6d624b82571f9ddb6bda4377c833b3499
   bench:
-    image: frappe/bench:latest
+    image: frappe/bench:latest@sha256:1021dc6e72a23507fb299cf796ceba94f3bf21e0987dd7fec05fb89e930c97b8
     command: [bash, -c, 'if [ -f portal-bench/Procfile ]; then cd portal-bench && bench start; else exec sleep infinity; fi']
     working_dir: /home/frappe/workspace
     environment:

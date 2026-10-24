@@ -17,6 +17,8 @@ def after_install():
     settings.language = "fa"
     settings.time_zone = "Asia/Tehran"
     settings.save(ignore_permissions=True)
+    from saeenaria_portal.purchase_reports.general_settings import initialize
+    initialize()
 
 
 def ensure_people_roles():

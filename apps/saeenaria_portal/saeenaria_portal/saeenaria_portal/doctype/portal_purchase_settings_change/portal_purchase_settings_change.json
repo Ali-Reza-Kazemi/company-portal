@@ -1,0 +1,61 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Purchase Settings Change",
+  "module": "Saeenaria Portal",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "hash",
+  "issingle": 0,
+  "track_changes": 1,
+  "field_order": [
+    "revision",
+    "changed_by",
+    "changed_at",
+    "change_kind",
+    "before_json",
+    "after_json"
+  ],
+  "fields": [
+    {
+      "fieldname": "revision",
+      "label": "نسخه",
+      "fieldtype": "Int",
+      "unique": 1
+    },
+    {
+      "fieldname": "changed_by",
+      "label": "تغییردهنده",
+      "fieldtype": "Link",
+      "options": "User"
+    },
+    {
+      "fieldname": "changed_at",
+      "label": "زمان تغییر",
+      "fieldtype": "Datetime"
+    },
+    {
+      "fieldname": "change_kind",
+      "label": "نوع تغییر",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "before_json",
+      "label": "مقادیر قبل",
+      "fieldtype": "Long Text"
+    },
+    {
+      "fieldname": "after_json",
+      "label": "مقادیر بعد",
+      "fieldtype": "Long Text"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 0,
+      "create": 0,
+      "delete": 0
+    }
+  ]
+}

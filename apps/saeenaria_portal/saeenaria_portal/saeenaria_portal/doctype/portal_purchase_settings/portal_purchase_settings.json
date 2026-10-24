@@ -1,0 +1,140 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Purchase Settings",
+  "module": "Saeenaria Portal",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "",
+  "issingle": 1,
+  "track_changes": 1,
+  "field_order": [
+    "sales_months",
+    "lead_months",
+    "coverage_months",
+    "safety_months",
+    "growth_percent",
+    "min_order",
+    "pack_size",
+    "return_window_months",
+    "active_months",
+    "dormancy_months",
+    "max_coverage_months",
+    "initialized",
+    "revision",
+    "updated_by",
+    "updated_at"
+  ],
+  "fields": [
+    {
+      "fieldname": "sales_months",
+      "label": "دوره بررسی فروش",
+      "fieldtype": "Float",
+      "precision": "9",
+      "description": "میانگین فروش خالص از این تعداد ماه محاسبه می‌شود. واحد: ماه"
+    },
+    {
+      "fieldname": "lead_months",
+      "label": "زمان تأمین",
+      "fieldtype": "Float",
+      "precision": "9",
+      "description": "زمان مورد انتظار از سفارش تا رسیدن کالا؛ در پیشنهاد خرید و زمان سفارش استفاده می‌شود. واحد: ماه"
+    },
+    {
+      "fieldname": "coverage_months",
+      "label": "پوشش هدف",
+      "fieldtype": "Float",
+      "precision": "9",
+      "description": "موجودی هدف باید فروش این تعداد ماه را پوشش دهد. واحد: ماه"
+    },
+    {
+      "fieldname": "safety_months",
+      "label": "ذخیره اطمینان",
+      "fieldtype": "Float",
+      "precision": "9",
+      "description": "پوشش اضافه برای تأخیر تأمین یا افزایش تقاضا. واحد: ماه"
+    },
+    {
+      "fieldname": "growth_percent",
+      "label": "درصد رشد پیش‌بینی",
+      "fieldtype": "Float",
+      "precision": "9",
+      "description": "درصد افزایش یا کاهش نسبت به میانگین فروش؛ صفر یعنی بدون رشد. واحد: درصد"
+    },
+    {
+      "fieldname": "min_order",
+      "label": "حداقل سفارش",
+      "fieldtype": "Float",
+      "precision": "9",
+      "description": "حداقل تعداد خرید هنگامی که نیاز به سفارش مثبت است. واحد: عدد"
+    },
+    {
+      "fieldname": "pack_size",
+      "label": "ضریب بسته‌بندی",
+      "fieldtype": "Float",
+      "precision": "9",
+      "description": "مقدار پیشنهادی سفارش رو به بالا به مضرب این عدد گرد می‌شود. واحد: عدد"
+    },
+    {
+      "fieldname": "return_window_months",
+      "label": "پنجره تأیید بازگشت فروش",
+      "fieldtype": "Float",
+      "precision": "9",
+      "description": "بازه اخیر برای بررسی بازگشت فروش کالاهای راکد. واحد: ماه"
+    },
+    {
+      "fieldname": "active_months",
+      "label": "حداقل ماه فعال برای خروج از رسوب",
+      "fieldtype": "Float",
+      "precision": "9",
+      "description": "حداقل تعداد ماه دارای فروش مثبت در پنجره اخیر. واحد: ماه فعال"
+    },
+    {
+      "fieldname": "dormancy_months",
+      "label": "آستانه تشخیص رسوب",
+      "fieldtype": "Float",
+      "precision": "9",
+      "description": "فاصله زمانی مؤثر در تشخیص رکود و فروش موردی. واحد: ماه"
+    },
+    {
+      "fieldname": "max_coverage_months",
+      "label": "حداکثر پوشش مجاز",
+      "fieldtype": "Float",
+      "precision": "9",
+      "description": "پوشش بالاتر از این مقدار به‌عنوان موجودی بیش از حد بررسی می‌شود. واحد: ماه"
+    },
+    {
+      "fieldname": "initialized",
+      "label": "راه‌اندازی شده",
+      "fieldtype": "Check",
+      "hidden": 1
+    },
+    {
+      "fieldname": "revision",
+      "label": "نسخه تنظیمات",
+      "fieldtype": "Int",
+      "read_only": 1
+    },
+    {
+      "fieldname": "updated_by",
+      "label": "آخرین ویرایشگر",
+      "fieldtype": "Link",
+      "options": "User",
+      "read_only": 1
+    },
+    {
+      "fieldname": "updated_at",
+      "label": "آخرین تغییر",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 0,
+      "create": 0,
+      "delete": 0
+    }
+  ]
+}

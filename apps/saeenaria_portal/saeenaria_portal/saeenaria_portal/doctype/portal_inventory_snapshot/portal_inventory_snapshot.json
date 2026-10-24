@@ -1,0 +1,155 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Inventory Snapshot",
+  "module": "Saeenaria Portal",
+  "custom": 0,
+  "engine": "InnoDB",
+  "autoname": "hash",
+  "track_changes": 1,
+  "field_order": [
+    "title",
+    "domain",
+    "responsible",
+    "kind",
+    "period_start",
+    "period_end",
+    "revision",
+    "policy",
+    "valuation_basis",
+    "captured_at",
+    "snapshot_hash",
+    "metrics_json",
+    "payload"
+  ],
+  "fields": [
+    {
+      "fieldname": "title",
+      "fieldtype": "Data",
+      "label": "عنوان",
+      "reqd": 1,
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "domain",
+      "fieldtype": "Link",
+      "options": "Portal Domain",
+      "label": "حوزه",
+      "reqd": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "responsible",
+      "fieldtype": "Link",
+      "options": "User",
+      "label": "مسئول",
+      "reqd": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "kind",
+      "fieldtype": "Select",
+      "options": "Weekly\nMonthly\nCash",
+      "label": "نوع گزارش",
+      "reqd": 1,
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "period_start",
+      "fieldtype": "Date",
+      "label": "شروع دوره",
+      "reqd": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "period_end",
+      "fieldtype": "Date",
+      "label": "پایان دوره",
+      "reqd": 1,
+      "read_only": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "revision",
+      "fieldtype": "Int",
+      "label": "نسخه",
+      "reqd": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "policy",
+      "fieldtype": "Data",
+      "label": "نسخه روش محاسبه",
+      "reqd": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "valuation_basis",
+      "fieldtype": "Data",
+      "label": "مبنای ارزش‌گذاری",
+      "reqd": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "captured_at",
+      "fieldtype": "Datetime",
+      "label": "زمان دریافت",
+      "reqd": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "snapshot_hash",
+      "fieldtype": "Data",
+      "label": "شناسه محتوای یکتا",
+      "reqd": 1,
+      "unique": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "payload",
+      "fieldtype": "Long Text",
+      "label": "شواهد محاسبه",
+      "reqd": 1,
+      "hidden": 1,
+      "read_only": 1
+    },
+    {
+      "fieldname": "metrics_json",
+      "fieldtype": "Long Text",
+      "label": "خلاصه سری زمانی",
+      "read_only": 1,
+      "hidden": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "select": 1
+    },
+    {
+      "role": "Portal Administrator",
+      "read": 1,
+      "select": 1
+    },
+    {
+      "role": "Company Director",
+      "read": 1,
+      "select": 1
+    },
+    {
+      "role": "Domain Officer",
+      "read": 1,
+      "select": 1
+    },
+    {
+      "role": "Portal Contributor",
+      "read": 1,
+      "select": 1
+    }
+  ],
+  "title_field": "title",
+  "sort_field": "captured_at",
+  "sort_order": "DESC"
+}

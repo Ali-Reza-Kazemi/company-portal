@@ -3,6 +3,8 @@ import frappe
 no_cache = 1
 
 def get_context(context):
+    from saeenaria_portal.account_header import add_context
+    add_context(context)
     if frappe.session.user == "Guest":
         frappe.local.flags.redirect_location = "/login?redirect-to=/portal"
         raise frappe.Redirect
@@ -18,3 +20,6 @@ def get_context(context):
 
     from saeenaria_portal.permissions import can_manage_desk
     context.can_manage_desk = can_manage_desk(frappe.session.user)
+    from saeenaria_portal.purchase_reports.service import allowed as purchase_allowed
+    context.can_view_purchase = purchase_allowed()
+    context.can_manage_desk = context.can_manage_desk or context.can_view_purchase

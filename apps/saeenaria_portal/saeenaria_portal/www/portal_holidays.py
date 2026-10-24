@@ -5,6 +5,8 @@ from saeenaria_portal.holidays import current_year, SOURCE
 no_cache=1
 
 def get_context(context):
+    from saeenaria_portal.account_header import add_context
+    add_context(context)
     if frappe.session.user=="Guest":
         frappe.local.flags.redirect_location="/login?redirect-to=/portal-holidays"
         raise frappe.Redirect

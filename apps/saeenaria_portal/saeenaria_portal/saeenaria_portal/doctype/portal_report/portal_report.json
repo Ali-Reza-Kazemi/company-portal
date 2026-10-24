@@ -19,7 +19,8 @@
     "supersedes",
     "snapshot_view",
     "snapshot",
-    "is_demo"
+    "is_demo",
+    "inventory_snapshot"
   ],
   "fields": [
     {
@@ -103,6 +104,14 @@
       "fieldname": "snapshot_view",
       "label": "ریز شاخص‌های گزارش",
       "fieldtype": "HTML"
+    },
+    {
+      "fieldname": "inventory_snapshot",
+      "label": "نسخه پایش موجودی",
+      "fieldtype": "Link",
+      "options": "Portal Inventory Snapshot",
+      "read_only": 1,
+      "hidden": 1
     }
   ],
   "permissions": [

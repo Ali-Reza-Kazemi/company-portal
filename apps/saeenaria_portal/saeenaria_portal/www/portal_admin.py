@@ -4,15 +4,25 @@ from saeenaria_portal.permissions import can_manage_desk, manage_people, admin, 
 no_cache = 1
 
 def get_context(context):
+    from saeenaria_portal.account_header import add_context
+    add_context(context)
     user = frappe.session.user
+    from saeenaria_portal.purchase_reports.service import allowed as purchase_allowed
     if user == "Guest":
         frappe.local.flags.redirect_location = "/login?redirect-to=/portal-admin"
         raise frappe.Redirect
-    if not can_manage_desk(user):
+    if not can_manage_desk(user) and not purchase_allowed(user):
         frappe.throw("میزکار مدیریت فقط برای مدیران و منابع انسانی در دسترس است", frappe.PermissionError)
     context.no_cache = 1
     context.user_name = "حساب مدیریت" if user == "Administrator" else frappe.db.get_value("User", user, "full_name") or user
     groups = []
+    if purchase_allowed(user):
+        groups.append(dict(title="خرید و کنترل موجودی", links=[dict(
+            title="گزارش‌های خرید و موجودی", description="پیشنهاد سفارش، بودجه، رسوب، مشتریان هدف و گردش موجودی",
+            url="/portal-purchase"), dict(title="پایش دوره‌ای و سوابق موجودی",description="کنسلی هفتگی، عملکرد ماهانه، نیاز نقدینگی و نمودار تاریخچه",url="/portal-inventory")]))
+    if not can_manage_desk(user):
+        context.groups = groups
+        return
     def group(title, entries):
         links = [dict(title=label, description=description, url=url) for dt,label,description,url in entries if frappe.has_permission(dt, "read")]
         if links:

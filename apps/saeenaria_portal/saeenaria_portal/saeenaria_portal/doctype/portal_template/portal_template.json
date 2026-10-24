@@ -68,7 +68,7 @@
       "fieldname": "frequency",
       "label": "تناوب",
       "fieldtype": "Select",
-      "options": "Daily\nWeekly\nMonthly\nQuarterly",
+      "options": "Daily\nWeekly\nMonthly\nQuarterly\nSemiannual",
       "reqd": 1
     },
     {
@@ -83,7 +83,7 @@
       "label": "روز ماه شمسی",
       "fieldtype": "Int",
       "default": "1",
-      "depends_on": "eval:['Monthly','Quarterly'].includes(doc.frequency)"
+      "depends_on": "eval:['Monthly','Quarterly','Semiannual'].includes(doc.frequency)"
     },
     {
       "fieldname": "enabled",
