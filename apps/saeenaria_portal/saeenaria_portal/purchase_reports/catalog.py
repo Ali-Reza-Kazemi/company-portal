@@ -41,7 +41,7 @@ REPORTS = {
         "DormancyMonths", "SedimentReason", "CustomerName", "ExpertGroup", "CustomerTemperature",
         "PurchasedItems", "LastPurchaseDate", "InvoiceCount", "HistoricalNetQty", "HistoricalNetSalesRial"]},
     "turnover": {"title": "گردش موجودی", "source": "sqlserver + portal", "fields": COMMON + ["CurrentItemStock"] + IDEAL[len(COMMON):] + [
-        "NetSalesQty12M", "AverageInventoryQty12M", "TurnoverRate", "InventoryDays", "TurnoverStatus"]},
+        "OrderControl", "NetSalesQty12M", "AverageInventoryQty12M", "TurnoverRate", "InventoryDays", "TurnoverStatus"]},
     "weekly": {"title": "فروش هفتگی کالاهای رسوبی", "source": "sqlserver + portal", "fields": [
         "WeekStart", "StockTitle", "Category", "ExpertGroup", "CustomerName", "ReferenceCode", "ReferenceTitle", "NetQty", "NetSalesRial"]},
 }

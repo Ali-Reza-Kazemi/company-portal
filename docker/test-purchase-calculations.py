@@ -75,6 +75,16 @@ class PurchaseCalculations(unittest.TestCase):
         self.assertEqual(row["TurnoverRate"], 12)
         self.assertEqual(row["InventoryDays"], Decimal(365) / 12)
 
+    def test_turnover_keeps_all_order_controls_without_history(self):
+        for control in ("خودکار", "مجاز دستی", "ممنوع دستی"):
+            with self.subTest(control=control):
+                self.mapping[0]["کنترل سفارش"] = control
+                rows = self.run_model(sales=[], monthly=[])["turnover"]
+                self.assertEqual(len(rows), 1)
+                self.assertEqual(rows[0]["OrderControl"], control)
+                self.assertEqual(rows[0]["CurrentItemStock"], 10)
+                self.assertIsNone(rows[0]["TurnoverRate"])
+
     def test_returns_reduce_net_sales(self):
         self.sales += [dict(self.sales[0], Quantity=-72)]
         self.assertEqual(self.run_model()["orders"][0]["AverageMonthlyNetSales"], 8)

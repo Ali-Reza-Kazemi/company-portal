@@ -180,7 +180,7 @@ def calculate(mapping_rows, incoming, settings_rows, inventory, sales, monthly, 
             avg_inv = ratio(sum(monthly_by_date.values(), Decimal(0)), len(monthly_by_date))
             sales12 = sum((number(r.get("Quantity")) for r in sale if turnover_start <= day(r["DocumentDate"]) <= today), Decimal(0))
             rate = ratio(max(Decimal(0), sales12), avg_inv) if avg_inv is not None and avg_inv > 0 else None
-            if not sales12 and not avg_inv:
+            if not sales12 and not avg_inv and not stock_qty:
                 continue
             status = ("نیازمند بررسی موجودی منفی" if avg_inv is not None and avg_inv < 0 else
                       "فاقد موجودی متوسط" if not avg_inv and sales12 > 0 else
