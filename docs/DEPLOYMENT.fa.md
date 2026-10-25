@@ -53,7 +53,34 @@ docker compose -f compose.prod.yaml exec backend bench --site portal.example.int
 
 نام واقعی archiveها و فشرده‌سازی را با خروجی backup مطابقت دهید. encryption_key قبلی را در تنظیمات سایت بازیابی‌شده حفظ کنید. تعداد رکورد، ورود کاربران، فایل خصوصی، گزارش و شاخص‌ها را بررسی کنید. بازیابی واقعی در این نشست اجرا نشده است.
 
-## ارتقا
+## بررسی همگام‌سازی خودکار پس از نصب یا جابه‌جایی سرور
+
+اسکریپت `apps/saeenaria_portal/create-site.sh` در نصب اولیه زمان‌بند را فعال می‌کند و سرویس‌های worker و scheduler در Compose با `restart: unless-stopped` اجرا می‌شوند. فعال بودن زمان‌بند به تنهایی موفقیت دریافت از سپیدار را تضمین نمی‌کند؛ اتصال منابع و پردازش صف نیز باید بررسی شوند. همگام‌سازی کاتالوگ در hooks اپ هر ساعت ثبت شده است.
+
+در انتقال سرور، علاوه بر دیتابیس و فایل‌ها، `.env`، `site_config.json` (به‌خصوص encryption_key و گزینه اتصال منابع) و فایل خصوصی `purchase-order-connections.json` را از پشتیبان امن بازیابی کنید. گواهی‌های اتصال، در صورت استفاده، باید در مسیر قابل دسترسی سرویس‌ها بازیابی شوند. رمزها را وارد Git نکنید. کپی مستقیم کد داخل کانتینر بخشی از image نیست؛ پیش از انتقال، image حاوی آخرین کد Git را بسازید یا همان image به‌روز را منتقل کنید.
+
+در دستورهای زیر نام سایت واقعی را جایگزین کنید؛ نام سایت سرور فعلی `SaeenAria.Portal` است:
+
+```bash
+docker compose -f compose.prod.yaml exec backend bench --site SaeenAria.Portal migrate
+docker compose -f compose.prod.yaml exec backend bench --site SaeenAria.Portal enable-scheduler
+docker compose -f compose.prod.yaml up -d worker scheduler
+docker compose -f compose.prod.yaml exec backend bench doctor
+docker compose -f compose.prod.yaml exec backend bench --site SaeenAria.Portal execute saeenaria_portal.purchase_reports.product_catalog.sync_worker
+```
+
+اجرای مستقیم آخر، اتصال واقعی و دریافت کاتالوگ را بررسی می‌کند؛ نتیجه موفق شامل `added`، `source_items` و `conflicts` است. پس از آن زمان «آخرین همگام‌سازی» صفحه کالاها را در نوبت خودکار بعدی بررسی کنید. انتخاب فیلتر «کالاهای جدید سپیدار» فقط فهرست محلی را فیلتر می‌کند و دریافت تازه انجام نمی‌دهد. تکمیل گروه و مرجع کالاها همچنان دستی است.
+
+در سرور فعلی، اتصال دیتابیس سپیدار بدون TLS انتخاب شده است و مقدار `purchase_order_require_tls` در `site_config.json` سایت باید بولین JSON یعنی `false` باشد، نه رشته `"false"`. این تنظیم مستقل از HTTPS وب‌سایت است. configurator مقدار پیش‌فرض مشترک را true می‌گذارد؛ تنظیم اختصاصی سایت را هنگام بازیابی حفظ کنید. اگر اتصال رمزنگاری‌شده لازم است، به‌جای این استثنا، TLS و CA معتبر منبع را طبق راهنمای SECURE_CONFIGURATION_FA.md تنظیم کنید.
+
+وجود worker آنلاین یا خالی شدن صف، به تنهایی اثبات موفقیت کارها نیست. اگر تعداد کارها پیوسته زیاد می‌شود یا زمان همگام‌سازی تغییر نمی‌کند، خروجی این دستورات را بررسی کنید و صف را بدون تشخیص علت پاک نکنید:
+
+```bash
+docker compose -f compose.prod.yaml ps
+docker compose -f compose.prod.yaml logs --tail=150 worker scheduler
+```
+
+## مراحل ارتقا
 
 ۱. پشتیبان کامل بگیرید و بازیابی آن را روی محیط مستقل آزمایش کنید.
 ۲. نسخه جدید را ابتدا روی staging با داده آزمایشی و آزمون‌های پروژه بررسی کنید.
