@@ -21,3 +21,14 @@
 .portal-ui #incoming-import input[type=file]{display:block;width:100%;min-width:0;max-width:100%;margin:0;padding:8px;font-size:12px;height:auto;min-height:42px}.incoming-upload-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}.portal-ui #incoming-import .incoming-upload-actions button,.portal-ui #incoming-import .incoming-upload-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:40px;width:auto;max-width:100%;font-size:12px;padding:8px 12px;line-height:1.7;white-space:normal;overflow-wrap:anywhere;margin:0}
 #incoming-import-guide{margin:14px 0 0;padding:0;border:0;border-top:1px solid #e4eaf2;border-radius:0;background:transparent}#incoming-import-guide summary{font-size:12px;padding:10px 0}#incoming-import-guide ul{margin:0;padding-inline-start:20px;font-size:12px;color:#53647b;line-height:1.9}#incoming-import-guide li{margin-bottom:6px;overflow-wrap:anywhere}#incoming-import-message{font-size:12px;line-height:1.9;overflow-wrap:anywhere;margin:12px 0 0}.portal-ui #incoming-import-preview{max-height:240px;overflow:auto;margin:12px 0 0;border-radius:8px}.portal-ui #incoming-import-preview table{min-width:580px;font-size:11px}.portal-ui #incoming-import-preview th,.portal-ui #incoming-import-preview td{padding:9px;line-height:1.8;overflow-wrap:anywhere}.portal-ui #incoming-import-preview td{max-width:250px}
 @media(max-width:650px){.incoming-heading{align-items:flex-start;flex-direction:column;gap:10px}.incoming-actions{width:100%}.portal-ui #incoming-filters{flex-wrap:wrap;gap:10px}.portal-ui #incoming-filters label:first-child{flex:1 1 100%}.portal-ui #incoming-filters label{flex:1 1 50%}.portal-ui #incoming-import{padding:16px}.incoming-import-heading h2{font-size:16px}.portal-ui #incoming-bulk{flex-wrap:wrap}}
+.purchase-filters label[for="weekly-date-from"],
+.purchase-filters label[for="weekly-date-to"] {
+  flex: 0 0 124px;
+  min-width: 0;
+}
+
+.purchase-filters label[for="weekly-date-from"] input,
+.purchase-filters label[for="weekly-date-to"] input {
+  width: 100%;
+  padding-inline-end: 8px;
+}

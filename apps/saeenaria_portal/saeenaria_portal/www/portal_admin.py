@@ -16,6 +16,9 @@ def get_context(context):
     context.no_cache = 1
     context.user_name = "حساب مدیریت" if user == "Administrator" else frappe.db.get_value("User", user, "full_name") or user
     groups = []
+    from saeenaria_portal.sales_reports.service import allowed as sales_allowed
+    if sales_allowed(user):
+        groups.append(dict(title="فروش", links=[dict(title="گزارش ماهانه کارشناسان فروش", description="دو کانال فروش، تارگت، تخفیف و عملکرد ماهانه؛ اتصال مستقیم API دیدار", url="/portal-sales")]))
     if purchase_allowed(user):
         groups.append(dict(title="خرید و کنترل موجودی", links=[dict(
             title="گزارش‌های خرید و موجودی", description="پیشنهاد سفارش، بودجه، رسوب، مشتریان هدف و گردش موجودی",

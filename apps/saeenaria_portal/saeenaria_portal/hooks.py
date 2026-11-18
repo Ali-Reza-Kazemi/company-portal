@@ -63,3 +63,6 @@ scheduler_events.setdefault("hourly", []).append("saeenaria_portal.purchase_repo
 
 # Native defaults never fall back to an external workbook store.
 after_migrate.append("saeenaria_portal.purchase_reports.general_settings.initialize")
+
+after_migrate.append("saeenaria_portal.sales_reports.service.initialize")
+scheduler_events.setdefault("hourly", []).append("saeenaria_portal.sales_reports.service.auto_refresh")

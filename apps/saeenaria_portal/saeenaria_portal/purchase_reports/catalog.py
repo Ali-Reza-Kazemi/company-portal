@@ -19,8 +19,9 @@ LABELS = {
     "DormancyMonths": "ماه‌های رکود", "CustomerName": "مشتری", "ExpertGroup": "کارشناس",
     "CustomerTemperature": "وضعیت مشتری", "PurchasedItems": "کالاهای خریداری‌شده",
     "LastPurchaseDate": "آخرین خرید", "InvoiceCount": "تعداد فاکتور", "HistoricalNetQty": "تعداد خالص خرید",
-    "HistoricalNetSalesRial": "خرید خالص (ریال)", "WeekStart": "ابتدای هفته", "NetQty": "تعداد خالص فروش",
+    "HistoricalNetSalesRial": "خرید خالص (ریال)", "WeekStart": "ابتدای هفته", "DocumentDate": "تاریخ فاکتور", "NetQty": "تعداد خالص فروش",
     "NetSalesRial": "فروش خالص (ریال)",
+    "SedimentReason": "علت تعیین کالا به‌عنوان رسوبی",
 }
 
 COMMON = ["StockTitle", "Category", "ItemCode", "ItemTitle"]
@@ -43,7 +44,7 @@ REPORTS = {
     "turnover": {"title": "گردش موجودی", "source": "sqlserver + portal", "fields": COMMON + ["CurrentItemStock"] + IDEAL[len(COMMON):] + [
         "OrderControl", "NetSalesQty12M", "AverageInventoryQty12M", "TurnoverRate", "InventoryDays", "TurnoverStatus"]},
     "weekly": {"title": "فروش هفتگی کالاهای رسوبی", "source": "sqlserver + portal", "fields": [
-        "WeekStart", "StockTitle", "Category", "ExpertGroup", "CustomerName", "ReferenceCode", "ReferenceTitle", "NetQty", "NetSalesRial"]},
+        "WeekStart", "DocumentDate", "StockTitle", "Category", "SedimentReason", "ExpertGroup", "CustomerName", "ReferenceCode", "ReferenceTitle", "NetQty", "NetSalesRial"]},
 }
 
 # Each metric is calculated over the whole filtered dataset, before pagination.

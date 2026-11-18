@@ -3,17 +3,22 @@
  const today=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tehran',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
  const dialog=document.createElement('dialog');dialog.className='portal-date-dialog';document.body.append(dialog);
  function el(tag,text,parent,cls){const e=document.createElement(tag);if(text)e.textContent=text;if(cls)e.className=cls;if(tag==='button')e.type='button';parent.append(e);return e;}
+ const labelFor=input=>document.querySelector('label[for="'+input.id+'"]')?.textContent||input.closest('label')?.firstChild?.textContent||'انتخاب تاریخ شمسی';
+ const isMonth=input=>input.hasAttribute('data-jalali-month');
+ const parseValue=input=>C.toISO(input.value.trim().replace(/-/g,'/')+(isMonth(input)&&input.value.trim()?'/01':''));
+ function displayValue(input,iso){let value=iso?C.format(iso):'';if(isMonth(input))value=value.split('/').slice(0,2).join('/');return input.dataset.jalaliFormat==='dash'?value.replace(/[۰-۹]/g,c=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(c)).replace(/\//g,'-'):value;}
  function open(input){
-  let current;try{current=C.toISO(input.value)||today();}catch{current=today();}
+  let current;try{current=parseValue(input)||today();}catch{current=today();}
   let [year,month]=C.format(current).replace(/[۰-۹]/g,c=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(c)).split('/').map(Number),ticket=0;
-  const choose=date=>{input.value=date?C.format(date):'';input.setCustomValidity('');input.dispatchEvent(new Event('change',{bubbles:true}));dialog.close();input.focus();};
+  const choose=date=>{input.value=displayValue(input,date);input.setCustomValidity('');input.dispatchEvent(new Event('change',{bubbles:true}));dialog.close();input.focus();};
   function draw(){
-   const version=++ticket;dialog.replaceChildren();const heading=el('div','',dialog,'portal-date-heading');el('strong',document.querySelector('label[for="'+input.id+'"]')?.textContent||'انتخاب تاریخ شمسی',heading);el('button','×',heading).onclick=()=>dialog.close();
+   const version=++ticket;dialog.replaceChildren();const heading=el('div','',dialog,'portal-date-heading');el('strong',labelFor(input),heading);el('button','×',heading).onclick=()=>dialog.close();
    const nav=el('div','',dialog,'saeenaria-cal-nav');el('button','‹',nav).onclick=()=>{if(year===1300&&month===1)return;if(--month===0){month=12;year--;}draw();};
    const m=el('select','',nav);m.setAttribute('aria-label','ماه شمسی');months.forEach((name,i)=>m.add(new Option(name,i+1)));m.value=month;m.onchange=()=>{month=+m.value;draw();};
    const y=el('select','',nav);y.setAttribute('aria-label','سال شمسی');for(let n=1500;n>=1300;n--)y.add(new Option(fa(n),n));y.value=year;y.onchange=()=>{year=+y.value;draw();};
    el('button','›',nav).onclick=()=>{if(year===1500&&month===12)return;if(++month===13){month=1;year++;}draw();};
    nav.firstElementChild.innerHTML='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';nav.firstElementChild.setAttribute('aria-label','ماه قبل');nav.lastElementChild.innerHTML='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>';nav.lastElementChild.setAttribute('aria-label','ماه بعد');
+   if(isMonth(input)){const footer=el('div','',dialog,'saeenaria-cal-footer');el('button','انتخاب '+months[month-1]+' '+fa(year),footer).onclick=()=>choose(C.toISO(`${year}/${month}/1`));el('button','ماه جاری',footer).onclick=()=>choose(today());return;}
    const grid=el('div','',dialog,'saeenaria-cal-grid');['ش','ی','د','س','چ','پ','ج'].forEach((d,i)=>el('div',d,grid,'saeenaria-cal-weekday'+(i>4?' is-off':'')));
    const first=C.toISO(`${year}/${month}/1`);for(let i=0;i<(new Date(first+'T12:00:00Z').getUTCDay()+1)%7;i++)el('span','',grid);
    let last=first;const days=[];
@@ -24,5 +29,5 @@
   }
   dialog.showModal();draw();
  }
- for(const input of document.querySelectorAll('#from,#to,#start,#due,[data-jalali-date]')){const id=input.id;const wrap=document.createElement('div');wrap.className='portal-date-field';input.before(wrap);wrap.append(input);input.classList.add('saeenaria-date-input');input.inputMode='numeric';input.autocomplete='off';const b=el('button','▦',wrap,'saeenaria-date-button');b.setAttribute('aria-label','باز کردن تقویم شمسی '+(document.querySelector('label[for="'+id+'"]')?.textContent||''));b.title='تقویم شمسی';b.onclick=()=>open(input);if(document.getElementById('staff-request-form'))input.addEventListener('click',()=>{if(!dialog.open)open(input);});input.addEventListener('input',()=>input.setCustomValidity(''));input.addEventListener('change',()=>{try{const iso=C.toISO(input.value);input.value=iso?C.format(iso):'';input.setCustomValidity('');}catch(e){input.setCustomValidity(e.message);}});}
+ for(const input of document.querySelectorAll('#from,#to,#start,#due,[data-jalali-date],[data-jalali-month]')){const wrap=document.createElement('div');wrap.className='portal-date-field';input.before(wrap);wrap.append(input);input.classList.add('saeenaria-date-input');input.inputMode='numeric';input.autocomplete='off';const b=el('button','▦',wrap,'saeenaria-date-button');b.setAttribute('aria-label','باز کردن تقویم شمسی '+labelFor(input));b.title='تقویم شمسی';b.onclick=()=>open(input);if(document.getElementById('staff-request-form')||input.hasAttribute('data-jalali-date')||isMonth(input))input.addEventListener('click',()=>{if(!dialog.open)open(input);});input.addEventListener('input',()=>input.setCustomValidity(''));input.addEventListener('change',()=>{try{const iso=parseValue(input);input.value=displayValue(input,iso);input.setCustomValidity('');}catch(e){input.setCustomValidity(e.message);}},true);}
 })();

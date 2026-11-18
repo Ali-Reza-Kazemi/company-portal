@@ -28,6 +28,21 @@ def saturday(value):
     return value - timedelta(days=(value.weekday() - 5) % 7)
 
 
+def weekly_sales(daily_rows, start, end):
+    rows = []
+    for sale in daily_rows:
+        stamp = day(sale["DocumentDate"])
+        if start <= stamp <= end:
+            rows.append({**sale, "WeekStart": saturday(stamp)})
+    return rows
+
+
+def add_sale(row, quantity, value):
+    row["NetQty"] += number(quantity)
+    if row["NetSalesRial"] is not None:
+        row["NetSalesRial"] = None if value is None else row["NetSalesRial"] + number(value)
+
+
 def build_reports(mapping_rows, settings_rows, inventory, sales, calculated, today, weeks=12):
     mapping = {key(row["ItemCode"]): row for row in convert_mapping(mapping_rows)}
     service_codes = {
@@ -187,28 +202,29 @@ def build_reports(mapping_rows, settings_rows, inventory, sales, calculated, tod
             )
 
     first, end = saturday(today) - timedelta(weeks=weeks), saturday(today)
-    weekly = {}
+    daily = {}
     for item in sediment:
         ref = key(item["ItemCode"])
         for sale in by_reference[ref]:
             stamp = day(sale["DocumentDate"])
-            if not first <= stamp < end or str(sale.get("StockId")) != str(item["StockId"]):
+            if str(sale.get("StockId")) != str(item["StockId"]):
                 continue
             expert = text(sale.get("CustomerGroupTitle")) or "بدون کارشناس/نیازمند تعیین گروه"
             ident = (
-                saturday(stamp),
+                stamp,
                 str(item["StockId"]),
                 ref,
                 str(sale.get("CustomerId") or 0),
                 expert,
             )
-            row = weekly.setdefault(
+            row = daily.setdefault(
                 ident,
                 dict(
-                    WeekStart=saturday(stamp),
+                    DocumentDate=stamp,
                     StockId=item["StockId"],
                     StockTitle=item["StockTitle"],
                     Category=item["Category"],
+                    SedimentReason=item["SedimentReason"],
                     ReferenceCode=item["ItemCode"],
                     ReferenceTitle=item["ItemTitle"],
                     CustomerId=sale.get("CustomerId") or 0,
@@ -223,11 +239,10 @@ def build_reports(mapping_rows, settings_rows, inventory, sales, calculated, tod
                     NetSalesRial=Decimal(0),
                 ),
             )
-            row["NetQty"] += number(sale["Quantity"])
-            if row["NetSalesRial"] is not None:
-                row["NetSalesRial"] = (
-                    None
-                    if sale.get("NetPrice") is None
-                    else row["NetSalesRial"] + number(sale["NetPrice"])
-                )
-    return {"sediment": sediment, "targets": targets, "weekly": list(weekly.values())}
+            add_sale(row, sale["Quantity"], sale.get("NetPrice"))
+    return {
+        "sediment": sediment,
+        "targets": targets,
+        "weekly": weekly_sales(daily.values(), first, end - timedelta(days=1)),
+        "sediment_sales_daily": list(daily.values()),
+    }

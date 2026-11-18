@@ -1,6 +1,6 @@
 """Permission-scoped report snapshots, filters, aggregate metrics and CSV export."""
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal
 import csv
 import io
@@ -11,10 +11,12 @@ import tempfile
 from urllib.parse import urlencode
 
 import frappe
+import jdatetime
 from frappe.rate_limiter import rate_limit
 from saeenaria_portal.csv_safety import safe_csv_cell
 from .calculations import calculate, number, ratio, text, total, is_service_item
 from .catalog import LABELS, METRICS, REPORTS
+from .native_analytics import build_reports, weekly_sales
 from .sources import credentials, extract_sqlserver, json_default
 
 
@@ -55,7 +57,7 @@ def write_snapshot(name, content):
         if os.path.exists(temp):
             os.unlink(temp)
     if name == "combined" and "reports" in content:
-        write_snapshot(name + "-meta", {k: v for k, v in content.items() if k != "reports"} | {
+        write_snapshot(name + "-meta", {k: v for k, v in content.items() if k not in ("reports", "sediment_sales_daily")} | {
             "report_counts": {report: len(rows) for report, rows in content["reports"].items()}})
 
 
@@ -71,7 +73,6 @@ def refresh_data(wait=False):
             write_snapshot("state", state)
             try:
                 from . import general_settings, product_catalog
-                from .native_analytics import build_reports
                 from .portal_inputs import read_inputs
                 config = credentials()
                 sql = extract_sqlserver(config)
@@ -90,6 +91,7 @@ def refresh_data(wait=False):
                     sql["FactInventory"],sql["FactSales"],reports,asof))
                 finished=datetime.now(timezone.utc).isoformat()
                 write_snapshot("combined",{"updated_at":now,"reports":reports,"settings_at":inputs["metadata"],
+                    "sediment_sales_daily":reports.pop("sediment_sales_daily"),
                     "processor":"portal-native-v2","source_run":[{"processor":"portal-native-v2","finished_at":finished,"run_status":"succeeded"}]})
             except Exception as exc:
                 frappe.db.rollback()
@@ -151,21 +153,49 @@ def parse_filters(filters):
     if not isinstance(filters, dict):
         frappe.throw("فیلتر نامعتبر است")
     return {k: text(v) for k, v in filters.items() if k in (
-        "StockTitle", "Category", "ExpertGroup", "CustomerTemperature", "MismatchSide", "WeekStart", "search") and v not in (None, "")}
+        "StockTitle", "Category", "ExpertGroup", "CustomerTemperature", "MismatchSide", "WeekStart", "date_from", "date_to", "search") and v not in (None, "")}
 
 
 def filtered_rows(name, filters):
     if name not in REPORTS:
         frappe.throw("گزارش نامعتبر است")
     filters = parse_filters(filters)
+    start, end = filters.pop("date_from", ""), filters.pop("date_to", "")
+    if name == "weekly" and (start or end):
+        try:
+            start, end = date.fromisoformat(start), date.fromisoformat(end)
+        except ValueError:
+            frappe.throw("تاریخ شروع و پایان بازه را وارد کنید")
+        if start > end:
+            frappe.throw("تاریخ پایان باید برابر یا بعد از تاریخ شروع باشد")
     snapshot = read_snapshot("combined")
     if name not in snapshot.get("reports", {}):
         return [], snapshot, {}, False
     source = snapshot["reports"][name]
     if name == "weekly":
+        if start and end:
+            if "sediment_sales_daily" not in snapshot:
+                return [], snapshot, {}, False
+            source = weekly_sales(snapshot["sediment_sales_daily"], start, end)
+            filters.pop("WeekStart", None)
+        elif "sediment_sales_daily" in snapshot and source and "DocumentDate" not in source[0]:
+            weeks = [date.fromisoformat(row["WeekStart"]) for row in source]
+            source = weekly_sales(snapshot["sediment_sales_daily"], min(weeks), max(weeks) + timedelta(days=6))
+        sediment_reasons = {
+            (str(row.get("StockId")), text(row.get("ItemCode"))): row.get("SedimentReason")
+            for row in snapshot.get("reports", {}).get("sediment", [])
+        }
+        for row in source:
+            if not row.get("SedimentReason"):
+                row["SedimentReason"] = sediment_reasons.get(
+                    (str(row.get("StockId")), text(row.get("ReferenceCode"))),
+                    "علت در آخرین گزارش رسوب ثبت نشده",
+                )
         source = [row for row in source if "قطعات یدکی" not in " ".join(text(row.get("Category")).replace("\u200c", " ").split())]
     options = {f: sorted({str(r[f]) for r in source if r.get(f) not in (None, "")}) for f in (
         "StockTitle", "Category", "ExpertGroup", "CustomerTemperature", "MismatchSide", "WeekStart") if any(f in r for r in source)}
+    if name == "weekly" and start and end:
+        options.pop("WeekStart", None)
     result = []
     for row in source:
         if name == "orders" and is_service_item(row.get("ItemTitle")):
@@ -301,6 +331,15 @@ def export_csv(name, filters=None):
     fields = REPORTS[name]["fields"]
     writer.writerow([LABELS[f] for f in fields])
     for row in rows:
+        if name == "weekly":
+            row = row.copy()
+            for field in ("WeekStart", "DocumentDate"):
+                if row.get(field):
+                    stamp = jdatetime.date.fromgregorian(date=date.fromisoformat(str(row[field])))
+                    # Persian digits keep the CSV date as display text in Excel.
+                    row[field] = f"{stamp.year:04d}/{stamp.month:02d}/{stamp.day:02d}".translate(
+                        str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹")
+                    )
         writer.writerow([safe_csv_cell(row.get(f)) for f in fields])
     frappe.local.response.update({"type": "download", "filename": "purchase-" + name + ".csv",
                                   "filecontent": ("\ufeff" + stream.getvalue()).encode("utf-8"),

@@ -14,10 +14,13 @@ def environment_navigation():
         return {"links": []}
     from saeenaria_portal.permissions import can_manage_desk
     from saeenaria_portal.purchase_reports.service import allowed as purchase_allowed
+    from saeenaria_portal.sales_reports.service import allowed as sales_allowed
 
-    if not can_manage_desk(user) and not purchase_allowed(user):
+    if not can_manage_desk(user) and not purchase_allowed(user) and not sales_allowed(user):
         return {"links": []}
     links = [dict(label="پورتال روزانه", url="/portal", kind="portal")]
+    if sales_allowed(user):
+        links.append(dict(label="گزارش ماهانه فروش", url="/portal-sales", kind="reports"))
     if purchase_allowed(user):
         links.append(dict(label="گزارش‌های خرید و موجودی", url="/portal-purchase", kind="reports"))
         links.append(dict(label="پایش و سوابق موجودی", url="/portal-inventory", kind="reports"))

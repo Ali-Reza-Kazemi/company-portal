@@ -7,12 +7,14 @@
   let active = location.hash.slice(1) || 'orders', filters = {}, page = 1, sort = '', descending = false, total = 0, request = 0, polling;
   if(active==='reconcile'){location.replace('/portal-products?status=issues');return;}
   let statusData, lastReport, searchTimer, suggestionRequest=0;
+  const dateFields = {'date_from':$('weekly-date-from'), 'date_to':$('weekly-date-to')};
   const node = (tag, value, cls) => { const n = document.createElement(tag); if (value != null) n.textContent = value; if (cls) n.className=cls; return n; };
   const numeric = value => value !== null && value !== '' && value !== undefined && Number.isFinite(Number(value));
   function format(value, field='') {
     if (value == null || value === '') return 'ناموجود';
     if (field.endsWith('Code') || ['ItemTitle','ReferenceTitle'].includes(field)) return String(value);
-    if (field === 'LastPurchaseDate' || field === 'WeekStart') return date(value, false);
+    if (field === 'WeekStart' || field === 'DocumentDate') return PortalCalendar.format(value);
+    if (field === 'LastPurchaseDate') return date(value, false);
     return numeric(value) ? formatter.format(Number(value)) : String(value);
   }
   function date(value, time=true) {
@@ -64,6 +66,10 @@
       select.value=filters[field]||'';label.append(select);$('select-filters').append(label);
     }
     $('report-search').value=filters.search||'';
+    for (const [key,input] of Object.entries(dateFields)) {
+      input.value=PortalCalendar.format(filters[key]||'');
+      input.setCustomValidity('');
+    }
   }
   function drawMetrics(metrics) {
     $('report-metrics').replaceChildren(...metrics.map(m=>{const card=node('div',null,'purchase-metric'),value=format(m.value);if(value.length>16)card.classList.add('long-value');card.append(node('span',m.label),node('strong',value));return card;}));
@@ -81,6 +87,8 @@
   async function load() {
     const id=++request;
     const settings=active==='settings',incoming=active==='incoming';document.body.classList.toggle('purchase-incoming-view',incoming);$('purchase-report-panel').hidden=settings||incoming;$('purchase-settings-panel').hidden=!settings;$('purchase-incoming-panel').hidden=!incoming;$('purchase-report-help').hidden=settings||incoming;$('refresh-source').hidden=settings||incoming;
+    $('weekly-date-help').hidden=active!=='weekly';
+    for (const input of Object.values(dateFields)) input.disabled=input.closest('label').hidden=active!=='weekly';
     if(settings){await window.PurchaseSettings.load();return;}
     if(incoming){await window.PurchaseIncoming.load();return;}
     $('report-table').setAttribute('aria-busy','true');
@@ -99,6 +107,7 @@
       drawFilters(data.options);drawMetrics(data.metrics);
       $('report-empty').hidden=data.available&&data.total>0;
       $('report-empty').textContent=data.available?'برای فیلترهای انتخاب‌شده ردیفی وجود ندارد.':'هنوز داده‌ای برای این گزارش دریافت نشده است. پس از تکمیل اتصال منابع، «به‌روزرسانی از منابع» را انتخاب کنید.';
+      if (active==='weekly' && filters.date_from && !data.available) $('report-empty').textContent='برای محاسبه بازه دلخواه، «به‌روزرسانی از منابع» را بزنید و منتظر پایان دریافت داده‌ها بمانید.';
       if(!data.total&&data.catalog_matches?.length){
         $('report-empty').replaceChildren(node('span','کالای مطابق جست‌وجو در کاتالوگ موجود است؛ در نتیجه این گزارش با فیلترهای فعلی نمایش داده نمی‌شود.'));
         for(const item of data.catalog_matches){
@@ -124,11 +133,26 @@
   $('report-search').addEventListener('input',()=>{
     clearSuggestions();const query=$('report-search').value.trim(),id=suggestionRequest,report=active;
     if(query.length<2)return;
-    searchTimer=setTimeout(async()=>{try{const data=await api('search_suggestions',{name:report,query,filters:JSON.stringify(readFilters())});if(id!==suggestionRequest||report!==active)return;$('report-search-suggestions').replaceChildren(...data.map(item=>{const option=new Option(item.label,item.value);option.label=item.label;return option;}));}catch{if(id===suggestionRequest)$('report-search-suggestions').replaceChildren();}},250);
+    searchTimer=setTimeout(async()=>{try{const data=await api('search_suggestions',{name:report,query,filters:JSON.stringify({...readFilters(),date_from:filters.date_from,date_to:filters.date_to})});if(id!==suggestionRequest||report!==active)return;$('report-search-suggestions').replaceChildren(...data.map(item=>{const option=new Option(item.label,item.value);option.label=item.label;return option;}));}catch{if(id===suggestionRequest)$('report-search-suggestions').replaceChildren();}},250);
   });
   $('select-filters').addEventListener('change',clearSuggestions);
-  $('report-filters').addEventListener('submit',e=>{e.preventDefault();clearSuggestions();filters=readFilters();page=1;load();});
-  $('clear-filters').addEventListener('click',()=>{clearSuggestions();filters={};page=1;load();});
+  $('report-filters').addEventListener('submit',e=>{
+    e.preventDefault();
+    const next=readFilters();
+    if(active==='weekly'){
+      for(const [key,input] of Object.entries(dateFields)){
+        try{next[key]=PortalCalendar.toISO(input.value.trim().replace(/-/g,'/'));}
+        catch(error){input.setCustomValidity(error.message);input.reportValidity();return;}
+      }
+      if(next.date_from||next.date_to){
+        if(!next.date_from||!next.date_to){status('هر دو تاریخ شروع و پایان را وارد کنید.',true);return;}
+        if(next.date_from>next.date_to){status('تاریخ پایان باید برابر یا بعد از تاریخ شروع باشد.',true);return;}
+        delete next.WeekStart;
+      }
+    }
+    clearSuggestions();showSourceState();filters=next;page=1;load();
+  });
+  $('clear-filters').addEventListener('click',()=>{clearSuggestions();showSourceState();filters={};page=1;load();});
   $('previous-page').addEventListener('click',()=>{if(page>1){page--;load();}});
   $('next-page').addEventListener('click',()=>{if(page*50<total){page++;load();}});
   window.addEventListener('hashchange',async()=>{clearSuggestions();active=location.hash.slice(1)||'orders';if(active==='reconcile'){location.replace('/portal-products?status=issues');return;}filters={};page=1;sort='';await overview();load();});

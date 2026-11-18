@@ -19,7 +19,7 @@
  // Capture links already rendered for this user's permissions before hiding duplicate navigation.
  for(const link of header.querySelectorAll('a[href]')){
   const url=link.getAttribute('href');
-  if(['/portal-purchase','/portal-inventory','/portal-products','/portal-admin'].includes(url))add(url,link.textContent.trim());
+  if(['/portal-sales','/portal-purchase','/portal-inventory','/portal-products','/portal-admin'].includes(url))add(url,link.textContent.trim());
  }
  add('/portal-training','آموزش');add('/portal-account','حساب من');
  header.append(nav);
@@ -32,13 +32,13 @@
   .then(response=>response.ok?response.json():Promise.reject())
   .then(payload=>{
    for(const link of payload.message?.links||[]){
-    if(['/portal-purchase','/portal-inventory','/portal-products','/portal-admin'].includes(link.url))add(link.url,link.label);
+    if(['/portal-sales','/portal-purchase','/portal-inventory','/portal-products','/portal-admin'].includes(link.url))add(link.url,link.label);
     if(link.kind==='records'){
      add(link.url,'تنظیمات و فرم‌ها');
     }
     if(link.kind==='build')add(link.url,link.label);
    }
-   const order=['/portal','/portal-staff','/portal-reviews','/portal-purchase','/portal-inventory','/portal-products','/portal-admin','/desk/saeenaria-portal/portal-domain','/desk/build','/portal-training','/portal-account'];
+   const order=['/portal','/portal-staff','/portal-reviews','/portal-sales','/portal-purchase','/portal-inventory','/portal-products','/portal-admin','/desk/saeenaria-portal/portal-domain','/desk/build','/portal-training','/portal-account'];
    for(const url of order)if(links.has(url))nav.append(links.get(url));
   })
   .catch(()=>{});

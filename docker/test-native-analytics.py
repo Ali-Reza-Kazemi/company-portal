@@ -4,7 +4,7 @@ from datetime import date, timedelta
 
 import frappe
 from saeenaria_portal.purchase_reports.calculations import calculate
-from saeenaria_portal.purchase_reports.native_analytics import build_reports, saturday
+from saeenaria_portal.purchase_reports.native_analytics import build_reports, saturday, weekly_sales
 from test_support import init_site
 
 init_site()
@@ -71,11 +71,19 @@ try:
         "LastPurchaseDate"
     ] == today - timedelta(days=7)
     assert {r["CustomerId"] for r in result["targets"]} == {1, 3}
-    weekly = next(r for r in result["weekly"] if r["CustomerId"] == 1)
-    assert weekly["NetQty"] == 5 and weekly["NetSalesRial"] == 32
-    assert weekly["WeekStart"] == date(2026, 10, 17)
+    weekly = [r for r in result["weekly"] if r["CustomerId"] == 1]
+    assert {r["DocumentDate"]: (r["NetQty"], r["NetSalesRial"]) for r in weekly} == {
+        date(2026, 10, 17): (7, 40),
+        date(2026, 10, 18): (-2, -8),
+    }
+    assert all(r["WeekStart"] == date(2026, 10, 17) for r in weekly)
     assert all(today - timedelta(weeks=12) <= r["WeekStart"] < today for r in result["weekly"])
     assert saturday(date(2026, 10, 23)) == date(2026, 10, 17)
+    # Start midweek: exclude the previous day's sales but keep the return on
+    # the first day and the sale on the last day, even in the current week.
+    custom = weekly_sales(result["sediment_sales_daily"], today - timedelta(days=6), today)
+    assert {row["CustomerId"]: row["NetQty"] for row in custom} == {1: -2, 2: -2, 3: 3}
+    assert sum(row["NetSalesRial"] for row in custom) == 4
     missing = [{**r, "UnitPrice": None} for r in inventory]
     assert reports(inv=missing)[1]["sediment"][0]["ExcessInventoryValueRial"] is None
     _, changed = reports(

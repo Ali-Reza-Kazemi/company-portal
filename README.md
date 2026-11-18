@@ -51,6 +51,7 @@ docker compose -f compose.dev.yaml exec bench bash -c 'cd portal-bench && bench 
 - [اتصال‌های آینده](docs/INTEGRATIONS.fa.md)
 - [محدودیت‌ها](docs/LIMITATIONS.fa.md)
 - [گزارش بررسی ساختار و امنیت](docs/CODE_SECURITY_REVIEW_FA.md)
+- [گزارش ماهانه کارشناسان فروش و اتصال API دیدار](docs/SALES_REPORTS_FA.md)
 - [تنظیمات امن منابع و اجرای مجموعه آزمون‌ها](docs/SECURE_CONFIGURATION_FA.md)
 - [وضعیت ادامه کار](PROJECT_STATUS.md)
 
