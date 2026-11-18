@@ -12,3 +12,6 @@ def get_context(context):
 
     from saeenaria_portal.password_admin import allowed
     context.can_reset_passwords=allowed()
+
+    from saeenaria_portal.permissions import admin
+    context.can_manage_report_access=admin(frappe.session.user)

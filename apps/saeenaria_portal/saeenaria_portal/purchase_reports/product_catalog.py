@@ -21,6 +21,9 @@ def can_edit():
     user = frappe.session.user
     if user == 'Guest':
         return False
+    from saeenaria_portal.report_access import shared
+    if shared(user):
+        return True
     return admin(user) or 'Company Director' in roles(user) or (frappe.conf.get('purchase_order_domain') or 'inventory') in managed_domains(user) or user == owner()
 
 

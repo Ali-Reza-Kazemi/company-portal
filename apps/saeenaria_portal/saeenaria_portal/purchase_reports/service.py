@@ -25,6 +25,9 @@ def allowed(user=None):
     user = user or frappe.session.user
     if user == "Guest":
         return False
+    from saeenaria_portal.report_access import shared
+    if shared(user):
+        return True
     domain = frappe.conf.get("purchase_order_domain") or "inventory"
     viewers = frappe.conf.get("purchase_order_viewers") or []
     explicit_viewer = isinstance(viewers, list) and user in viewers

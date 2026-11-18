@@ -105,7 +105,10 @@ def owner():
 
 def can_input():
     from saeenaria_portal.permissions import admin
+    from saeenaria_portal.report_access import shared
 
+    if shared(frappe.session.user):
+        return True
     return frappe.session.user != "Guest" and (
         admin(frappe.session.user) or frappe.session.user == owner()
     )

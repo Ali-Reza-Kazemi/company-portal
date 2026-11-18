@@ -1,0 +1,26 @@
+{
+  "doctype": "DocType",
+  "name": "Portal Report Access",
+  "module": "Saeenaria Portal",
+  "issingle": 1,
+  "track_changes": 1,
+  "field_order": [
+    "enabled"
+  ],
+  "fields": [
+    {
+      "fieldname": "enabled",
+      "fieldtype": "Check",
+      "label": "دسترسی موقت همه کاربران به فروش، موجودی و کالاها",
+      "default": "0"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1
+    }
+  ],
+  "engine": "InnoDB"
+}

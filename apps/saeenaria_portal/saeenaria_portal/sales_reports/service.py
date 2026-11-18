@@ -32,6 +32,9 @@ DT = "Portal Sales Settings"
 
 def allowed(user=None):
     user = user or frappe.session.user
+    from saeenaria_portal.report_access import shared
+    if shared(user):
+        return True
     return user != "Guest" and (
         admin(user)
         or "Company Director" in roles(user)
